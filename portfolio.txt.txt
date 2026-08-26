@@ -1,0 +1,312 @@
+Create a modern, professional, futuristic personal portfolio website for Sufi Mahbub Ahmed, a student at the Islamic University of Technology (IUT) who is passionate about cybersecurity and web application security. The website should present him as an aspiring web security expert who is actively developing his technical skills, while remaining honest that he is currently a student with no professional experience, services, or notable completed projects yet.
+
+Include a professional profile picture/portrait section prominently on the homepage. The overall visual identity should communicate cybersecurity, technical curiosity, problem-solving, and ambition without becoming overly flashy or stereotypical.
+
+1. Overall Design & Visual Identity
+
+Use a dark theme with a sophisticated dark-blue color palette, complemented by subtle cyan/blue highlights.
+
+Style:
+
+Professional
+Futuristic
+Clean and minimal
+Modern cybersecurity/technology aesthetic
+Subtle animations rather than excessive motion
+Strong typography and generous spacing
+Responsive design for desktop, tablet, and mobile
+Smooth scrolling between sections
+Subtle glowing borders, gradients, and hover effects
+Avoid clutter, excessive neon effects, or overly complicated backgrounds
+
+Use subtle technological visual elements such as:
+
+Soft blue gradients
+Very subtle grid patterns
+Minimal particles or animated lines
+Gentle glow effects around important elements
+Smooth card hover animations
+Animated skill bars or progress indicators where appropriate
+Scroll-based reveal animations
+
+The website should feel like a professional cybersecurity portfolio, not a gaming website.
+
+2. Home / Hero Section
+
+Create a strong first impression.
+
+Display:
+Sufi Mahbub Ahmed
+
+Headline:
+Aspiring Cybersecurity & Web Application Security Specialist
+
+Supporting text:
+A concise introduction explaining that Sufi is an IUT student passionate about cybersecurity and web application security, currently building the technical skills necessary to become a web security expert.
+
+Include:
+
+Professional profile picture
+Short introduction
+Primary CTA: “Explore My Skills”
+Secondary CTA: “Contact Me”
+
+Add a subtle futuristic background animation, such as a slowly moving grid, particles, or network-like connections.
+
+The hero section should immediately communicate:
+Student → Cybersecurity → Web Security → Continuous Learning
+
+3. About Me Section
+
+Create an "About Me" section based on the following information:
+
+Sufi Mahbub Ahmed is a student at the Islamic University of Technology with a strong passion for cybersecurity and web application security. He is dedicated to self-improvement and is continuously developing his technical abilities with the long-term goal of becoming a web security expert.
+
+Mention that his interest in video games also contributes to his problem-solving mindset and strategic thinking.
+
+Keep the writing professional and concise.
+
+Include a small profile card containing:
+
+Name: Sufi Mahbub Ahmed
+Institution: Islamic University of Technology
+Focus: Cybersecurity & Web Application Security
+Career Goal: Web Security Expert
+Professional Experience: Currently building experience
+4. Education Section
+
+Create a clean, modern education timeline.
+
+Islamic University of Technology
+
+Show this as his current university education.
+
+Focus:
+
+Computer Science / technology-oriented education
+Cybersecurity
+Web application security
+Technical skill development
+
+Do not invent a graduation year that has not been provided.
+
+Higher Secondary Certificate — Dhaka Commerce College
+GPA: 5.00
+Secondary School Certificate — MUBC
+GPA: 5.00
+
+Present education using a futuristic timeline or clean cards with subtle animation.
+
+5. Skills Section
+
+Create a visually appealing skills section grouped into logical categories.
+
+Programming
+C
+C++
+Python
+JavaScript
+Web Development
+HTML
+CSS
+JavaScript
+Cybersecurity & Networking
+Cybersecurity
+Web Application Security
+Networking
+Core Skills
+Problem Solving
+Strategic Thinking
+Continuous Learning
+
+Use interactive cards or subtle animated skill indicators. Do not exaggerate proficiency levels since specific percentages or rankings were not provided.
+
+The section should emphasize that these are skills Sufi is developing and strengthening as part of his journey toward becoming a web security expert.
+
+6. Projects Section
+
+Because Sufi has not completed any notable projects yet, do not fabricate projects.
+
+Instead, create a professionally designed "Projects & Learning" section that communicates that the portfolio is currently growing.
+
+Possible text:
+
+“My project portfolio is currently under development. I am actively building my technical knowledge and working toward creating security-focused web and cybersecurity projects.”
+
+Include a visually interesting placeholder/card labeled:
+
+Projects Coming Soon
+
+The design should make this feel intentional and professional rather than like an empty section.
+
+7. Experience Section
+
+Since Sufi currently has no professional experience, do not invent companies, internships, or job positions.
+
+Create a concise section titled:
+
+Experience & Career Journey
+
+Explain that Sufi is currently focused on:
+
+Academic development
+Cybersecurity learning
+Web application security
+Programming
+Networking
+Building practical experience
+
+Include a subtle "Currently Learning & Building" visual indicator.
+
+8. Services Section
+
+Sufi currently does not offer professional services, so do not present him as a freelancer or consultant.
+
+Instead, either omit a traditional Services section or transform it into:
+
+Areas of Future Focus
+
+Include:
+
+Web Application Security
+Cybersecurity
+Secure Web Development
+Networking & Security
+Security Research
+
+Make it clear these represent his future professional direction, not currently offered paid services.
+
+9. Interests Section
+
+Create a small section highlighting his personal interests.
+
+Primary interest:
+Gaming
+
+Explain briefly that playing video games contributes to his:
+
+Problem-solving ability
+Strategic thinking
+Analytical mindset
+
+Use subtle gaming-inspired visual elements, but keep the overall website professional and cybersecurity-focused.
+
+10. Contact Section
+
+Create a clean and professional contact section.
+
+Display:
+
+Email: iut496mirpur@gmail.com
+
+Phone: +880 1613 446941
+
+GitHub: https://github.com/NirjhorAhmed
+
+There is currently no LinkedIn profile, so do not display a LinkedIn link.
+
+Include a simple contact form with:
+
+Name
+Email
+Message
+Send Message button
+
+The contact section should use a clean dark-blue card with subtle glowing borders.
+
+11. Navigation
+
+Create a sticky navigation bar with:
+
+Home
+About
+Education
+Skills
+Projects
+Experience
+Contact
+
+Use smooth scrolling.
+
+The navbar should remain minimal and elegant, with a subtle background blur/transparency effect when scrolling.
+
+12. Animations & Interactions
+
+Use subtle animations only.
+
+Recommended:
+
+Fade-in sections while scrolling
+Smooth hover effects
+Slight card elevation on hover
+Animated blue gradient accents
+Subtle profile-picture glow
+Gentle background grid movement
+Smooth button transitions
+Animated skill cards
+Page-load hero animation
+
+Avoid:
+
+Excessive particle effects
+Flashing neon colors
+Large distracting animations
+Constantly moving backgrounds
+Overly complicated cybersecurity graphics
+13. Footer
+
+Create a simple footer containing:
+
+Sufi Mahbub Ahmed
+
+“Building skills. Securing the web. Growing every day.”
+
+Include GitHub and email icons/links.
+
+Add a simple copyright notice.
+
+14. Important Content Rules
+
+Do not fabricate:
+
+Professional experience
+Companies
+Internships
+Projects
+Certifications
+LinkedIn profile
+Services
+Graduation years
+Cybersecurity credentials
+
+The website should portray Sufi as an ambitious cybersecurity student building toward a professional career, rather than falsely presenting him as an established cybersecurity professional.
+
+The final result should look like a high-end modern cybersecurity student portfolio: dark blue, futuristic, professional, clean, minimal, responsive, and subtly animated.Deliverables:
+GitHub repository for the portfolio website (with privacy set to public)
+Domain link of website portfolio is hosted on
+If you used any AI tools, the names of the tools and the history of the sent prompts
+Requirements
+Clearly mention your your identity, information about you, and your contact information (Email, GitHub profile, LinkedIn profile at the bare minimum)
+Include and highlight your previous/ongoing projects, academic achievements and research (if any)
+Exercise creativity to tailor the theme, design and elements to suit your interests and preference
+Feel free to include anything else you feel like (e.g. your artwork, photography, writing, music, community involvement etc. - anything that helps define you.)
+Suggestions:
+It is recommended that you use GitHub Pages (https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site) to host your portfolio website: this is the easiest way to set everything up.
+Make sure your website clearly and concisely represents your interests but also comprehensively covers all your works and projects.
+Make your portfolio extensible, you are currently in your fourth semester, you will be doing a lot more in the next two years. Design your website in a manner which allows you to add your future projects, research, interests and efforts in your portfolio website.
+It is generally good practice to document your writings, projects online and have them as a part of your portfolio
+If you have a good vision of how you want your website to look like, you can freely utilize LLMs to implement and realize your website.
+You can adapt the design from an existing open-source portfolio, but make sure that you modify it to fit your requirements
+Tutorials and Guides
+Github Pages QuickStart (https://docs.github.com/en/pages/quickstart)
+Using Jekyll To Generate A Static Site hosted in GitHub Pages (https://github.com/skills/github-pages)
+FreecodeCamp Resources: Figma Based Design Guide (https://www.freecodecamp.org/news/how-to-build-a-portfolio-website-using-figma-and-ai-tools/), Full Build and Deploy Guide (https://www.youtube.com/watch?v=_xkSvufmjEs)
+Example Portfolio Pages:
+Minimal:
+Guido van Rossum, Creator of Python (https://gvanrossum.github.io/)
+Paul Graham, Co-founder of Y Combinator, creator of Lisp Viaweb (https://paulgraham.com/)
+Chris Olah, AI researcher, Anthropic (https://colah.github.io/)
+Andrej Karpathy, Former Director of AI, Tesla (https://karpathy.ai/)
+Fancy:
+Jackie Zhang, Product Designer (https://jackiezhang.co.za/)
+Gazi Jarin, SE, Google (https://www.gazijarin.com/)
