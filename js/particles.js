@@ -1,8 +1,8 @@
 /**
- * Interactive Node Constellation Canvas with Full-Screen Blue & Red Security Words
+ * Interactive Node Constellation Canvas with High-Density Full-Screen Blue & Red Words
  * Sufi Mahbub Ahmed - Cybersecurity Portfolio
- * Distributes streaming blue and red security words across the entire screen
- * (top, middle, and bottom zones) alongside mouse-reactive constellation nodes.
+ * Constantly generates streaming blue and red security words across all zones
+ * (Top, Upper-Mid, True Center, Lower-Mid, and Bottom) with continuous respawning.
  */
 
 (function () {
@@ -30,7 +30,7 @@
   // =========================================================================
   // 1. Interactive Node Constellation Network
   // =========================================================================
-  const NODE_COUNT = 80;
+  const NODE_COUNT = 85;
   const CONNECTION_DIST = 140;
   let nodes = [];
 
@@ -146,7 +146,7 @@
   }
 
   // =========================================================================
-  // 2. Full-Screen Blue & Red Security Words (Top, Middle, and Bottom Bands)
+  // 2. High-Density Blue & Red Security Words (Continuous Mid-Zone Generation)
   // =========================================================================
   const WORDS_BLUE = [
     '> SYS_AUTH // ACCESS GRANTED',
@@ -158,7 +158,9 @@
     '> PORT_SCAN::STEALTH_ACK [443]',
     '> KERNEL_HOOK // ATTACHED',
     '> TLS_HANDSHAKE // VERIFIED',
-    '> DEFENSE_NODE // ONLINE'
+    '> DEFENSE_NODE // ONLINE',
+    '> CORE_PIPELINE // CONNECTED',
+    '> BUFFER_ALLOC // 0x7FFF'
   ];
 
   const WORDS_RED = [
@@ -169,13 +171,16 @@
     '> PRIVILEGE_ESCALATION [BREACH]',
     '> SECURITY_ALERT // INTRUSION_OK',
     '> PAYLOAD_DELIVERY // SUCCESS',
-    '> ZERO_DAY // EXECUTION_OK'
+    '> ZERO_DAY // EXECUTION_OK',
+    '> ROOTKIT // ACTIVE_INTRUSION',
+    '> KERNEL_PANIC::OVERRIDE'
   ];
 
-  const FLOATING_WORD_COUNT = 24; // Abundant coverage across entire screen
+  const FLOATING_WORD_COUNT = 36; // High density across all screen heights
+  const TOTAL_ZONES = 6; // 6 distinct height bands for uniform generation
   let floatingWords = [];
 
-  class FullScreenFloatingWord {
+  class ContinuousFloatingWord {
     constructor(zoneIndex) {
       this.zoneIndex = zoneIndex;
       this.reset(true);
@@ -187,40 +192,45 @@
         ? WORDS_RED[Math.floor(Math.random() * WORDS_RED.length)]
         : WORDS_BLUE[Math.floor(Math.random() * WORDS_BLUE.length)];
 
-      // Distribute strictly across 4 screen bands (0 = Top, 1 = Upper Mid, 2 = Lower Mid, 3 = Bottom)
-      const band = this.zoneIndex % 4;
-      const zoneHeight = height / 4;
-      const minY = band * zoneHeight + 20;
-      const maxY = (band + 1) * zoneHeight - 20;
+      // Divide screen into 6 vertical zones:
+      // Zone 0: Top (0-16%)
+      // Zone 1: Upper-Mid (16-33%)
+      // Zone 2: True Mid Center (33-50%)
+      // Zone 3: Lower Mid Center (50-66%)
+      // Zone 4: Lower Area (66-83%)
+      // Zone 5: Bottom (83-100%)
+      const band = this.zoneIndex % TOTAL_ZONES;
+      const zoneHeight = height / TOTAL_ZONES;
+      const minY = band * zoneHeight + 15;
+      const maxY = (band + 1) * zoneHeight - 15;
 
-      // X position
       if (initial) {
         this.x = Math.random() * (width - 240) + 20;
       } else {
-        // Spawn from left or right edge
-        this.x = Math.random() > 0.5 ? -260 : width + 20;
+        // Continuous spawn from screen boundaries
+        this.x = Math.random() > 0.5 ? -280 : width + 20;
       }
 
       this.y = Math.random() * (maxY - minY) + minY;
 
       const dir = Math.random() > 0.5 ? 1 : -1;
-      this.vx = dir * (Math.random() * 0.4 + 0.22);
-      this.vy = (Math.random() - 0.5) * 0.18;
+      this.vx = dir * (Math.random() * 0.42 + 0.24);
+      this.vy = (Math.random() - 0.5) * 0.16;
 
       this.fontSize = Math.floor(Math.random() * 3) + 11;
-      this.maxAlpha = Math.random() * 0.35 + 0.48;
-      this.alpha = initial ? (Math.random() * 0.35 + 0.35) : 0;
+      this.maxAlpha = Math.random() * 0.35 + 0.5;
+      this.alpha = initial ? (Math.random() * 0.4 + 0.3) : 0;
       this.fadeState = initial ? 'hold' : 'in';
-      this.lifeTime = Math.random() * 450 + 250;
+      this.lifeTime = Math.random() * 400 + 250;
     }
 
     update() {
       this.x += this.vx;
       this.y += this.vy;
 
-      // Smooth fade lifecycle
+      // Smooth fade in -> hold -> fade out lifecycle
       if (this.fadeState === 'in') {
-        this.alpha += 0.015;
+        this.alpha += 0.018;
         if (this.alpha >= this.maxAlpha) {
           this.alpha = this.maxAlpha;
           this.fadeState = 'hold';
@@ -231,14 +241,14 @@
           this.fadeState = 'out';
         }
       } else if (this.fadeState === 'out') {
-        this.alpha -= 0.015;
+        this.alpha -= 0.018;
         if (this.alpha <= 0) {
           this.reset();
         }
       }
 
-      // Boundary reset
-      if (this.x < -300 || this.x > width + 100) {
+      // Continuous respawn on screen boundary exit
+      if (this.x < -320 || this.x > width + 80) {
         this.reset();
       }
     }
@@ -286,10 +296,10 @@
       nodes.push(new NetworkNode());
     }
 
-    // Spawn words evenly across Top, Upper Mid, Lower Mid, and Bottom zones
+    // Spawn 36 words evenly across all 6 vertical height bands
     floatingWords = [];
     for (let i = 0; i < FLOATING_WORD_COUNT; i++) {
-      floatingWords.push(new FullScreenFloatingWord(i));
+      floatingWords.push(new ContinuousFloatingWord(i));
     }
   }
 
@@ -305,7 +315,7 @@
       n.draw();
     });
 
-    // 3. Draw Blue & Red Words Across Top, Middle, and Bottom
+    // 3. Draw Continuous Blue & Red Words across all bands (including mid-zones)
     floatingWords.forEach(w => {
       w.update();
       w.draw();
