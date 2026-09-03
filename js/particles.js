@@ -1,9 +1,8 @@
 /**
- * "Hacking Through The System" Cyberspace Engine
+ * "Hacking Through The System" Cyberspace Engine (Pure Cyber-Blue Edition)
  * Sufi Mahbub Ahmed - Cybersecurity Portfolio
- * Deep endless cyber-breach void, terminal injection logs,
- * root privilege escalation streams, and high-speed data penetration.
- * (No central blue light - pure dark cyberspace breach aesthetic)
+ * Deep endless dark cyber-breach void with pure neon-cyan & electric-blue
+ * terminal injection logs, root escalation streams, and 3D data penetration.
  */
 
 (function () {
@@ -39,21 +38,21 @@
   }
 
   // =========================================================================
-  // 1. Live Hacking & Cyber Penetration Stream Logs
+  // 1. Live Hacking Logs (Pure Cyber-Blue & Cyan Palette)
   // =========================================================================
   const HACK_LOGS = [
-    { text: '> INJECTING_PAYLOAD // OK', type: 'success' },
-    { text: '> BYPASSING_FIREWALL // 100%', type: 'success' },
-    { text: '> PRIVILEGE_ESCALATION [ROOT]', type: 'root' },
-    { text: '> IUT_SEC_NET // ROOT_ACCESS', type: 'root' },
-    { text: '> SYS_AUTH // BREACH_CONFIRMED', type: 'alert' },
-    { text: '> DECRYPTING_HASH // 0x7F8B92', type: 'info' },
-    { text: '> PACKET_SNIFFER // INTERCEPTING', type: 'info' },
-    { text: '> MEMORY_INJECTION // 0x004000', type: 'info' },
-    { text: '> MAINFRAME // ROOT_SHELL_OPEN', type: 'root' },
-    { text: '> EXPLOIT::BUFFER_OVERFLOW [OK]', type: 'success' },
-    { text: '> PORT_SCAN::STEALTH_ACK [443]', type: 'info' },
-    { text: '> KERNEL_HOOK // ATTACHED', type: 'success' }
+    '> INJECTING_PAYLOAD // OK',
+    '> BYPASSING_FIREWALL // 100%',
+    '> PRIVILEGE_ESCALATION [ROOT]',
+    '> IUT_SEC_NET // ROOT_ACCESS',
+    '> SYS_AUTH // BREACH_CONFIRMED',
+    '> DECRYPTING_HASH // 0x7F8B92',
+    '> PACKET_SNIFFER // INTERCEPTING',
+    '> MEMORY_INJECTION // 0x004000',
+    '> MAINFRAME // ROOT_SHELL_OPEN',
+    '> EXPLOIT::BUFFER_OVERFLOW [OK]',
+    '> PORT_SCAN::STEALTH_ACK [443]',
+    '> KERNEL_HOOK // ATTACHED'
   ];
 
   const TAG_COUNT = 16;
@@ -65,7 +64,6 @@
     }
 
     reset(customZ = null) {
-      // Distributed across peripheral quadrants
       const quadrant = Math.floor(Math.random() * 4);
       if (quadrant === 0) { // Top Left
         this.x = -240 - Math.random() * 340;
@@ -82,7 +80,7 @@
       }
 
       this.z = customZ !== null ? customZ : (DEPTH - Math.random() * 180);
-      this.data = HACK_LOGS[Math.floor(Math.random() * HACK_LOGS.length)];
+      this.text = HACK_LOGS[Math.floor(Math.random() * HACK_LOGS.length)];
       this.speedMult = 1.0 + Math.random() * 0.4;
     }
 
@@ -108,22 +106,12 @@
       ctx.save();
       ctx.font = `600 ${fontSize}px "JetBrains Mono", monospace`;
 
-      let mainColor, dotColor, glowColor;
-      if (this.data.type === 'root' || this.data.type === 'success') {
-        mainColor = `rgba(0, 255, 136, ${alpha * 0.95})`;
-        dotColor = `rgba(0, 255, 136, ${alpha})`;
-        glowColor = '#00ff88';
-      } else if (this.data.type === 'alert') {
-        mainColor = `rgba(255, 51, 102, ${alpha * 0.95})`;
-        dotColor = `rgba(255, 51, 102, ${alpha})`;
-        glowColor = '#ff3366';
-      } else {
-        mainColor = `rgba(0, 240, 255, ${alpha * 0.95})`;
-        dotColor = `rgba(0, 240, 255, ${alpha})`;
-        glowColor = '#00f0ff';
-      }
+      // Pure Cyber Blue / Cyan Color Scheme
+      const mainColor = `rgba(0, 240, 255, ${alpha * 0.95})`;
+      const dotColor = `rgba(0, 240, 255, ${alpha})`;
+      const glowColor = '#00f0ff';
 
-      // Terminal Prompt Indicator Dot
+      // Status indicator dot
       const dotRadius = Math.max(1.8, 3.5 * scale);
       ctx.fillStyle = dotColor;
       ctx.shadowBlur = scale > 0.3 ? 8 : 0;
@@ -132,15 +120,15 @@
       ctx.arc(px - 10 * scale, py - (fontSize * 0.35), dotRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Hacker Terminal Log String
+      // Cyber text
       ctx.fillStyle = mainColor;
       ctx.shadowBlur = scale > 0.4 ? 6 : 0;
-      ctx.fillText(this.data.text, px, py);
+      ctx.fillText(this.text, px, py);
 
       // Cyber underline trace on closer tags
       if (scale > 0.45) {
-        const textWidth = ctx.measureText(this.data.text).width;
-        ctx.strokeStyle = mainColor;
+        const textWidth = ctx.measureText(this.text).width;
+        ctx.strokeStyle = `rgba(0, 240, 255, ${alpha * 0.4})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(px, py + 3 * scale);
@@ -167,7 +155,7 @@
     // Longitudinal Rails extending into the deep dark void
     const rails = [-800, -520, -320, -160, 0, 160, 320, 520, 800];
 
-    // Floor Rails (Hacker Cyan / Terminal Green tint)
+    // Floor Rails (Pure Cyber Cyan & Blue)
     rails.forEach((rx, i) => {
       const isCenter = rx === 0;
       const scaleFar = FOCAL_LENGTH / DEPTH;
@@ -180,8 +168,8 @@
 
       const grad = ctx.createLinearGradient(xFar, yFar, xNear, yNear);
       grad.addColorStop(0, 'rgba(0, 240, 255, 0)');
-      grad.addColorStop(0.35, isCenter ? 'rgba(0, 255, 136, 0.25)' : 'rgba(0, 119, 254, 0.08)');
-      grad.addColorStop(1, isCenter ? 'rgba(0, 255, 136, 0.55)' : 'rgba(0, 240, 255, 0.25)');
+      grad.addColorStop(0.35, isCenter ? 'rgba(0, 240, 255, 0.25)' : 'rgba(0, 119, 254, 0.08)');
+      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.55)' : 'rgba(0, 119, 254, 0.25)');
 
       ctx.strokeStyle = grad;
       ctx.lineWidth = isCenter ? 1.6 : 0.8;
@@ -215,7 +203,7 @@
       ctx.stroke();
     });
 
-    // Transverse Scanning Lines (Rushing towards camera)
+    // Transverse Scanning Lines
     for (let i = 0; i < NUM_Z_LINES; i++) {
       const z = (i * GRID_SPACING) - gridZOffset + 35;
       if (z <= 30 || z >= DEPTH) continue;
@@ -250,7 +238,7 @@
   }
 
   // =========================================================================
-  // 3. High-Speed Cyber Attack Streaks (Hacker Green & Neon Cyan Data Photons)
+  // 3. High-Speed Cyber Photons (Pure Electric Blue & Cyan Streaks)
   // =========================================================================
   const STREAK_COUNT = 95;
   let streaks = [];
@@ -279,7 +267,7 @@
       this.z = initial ? Math.random() * DEPTH : DEPTH - Math.random() * 100;
       this.len = 80 + Math.random() * 150;
       this.speedMult = 1.3 + Math.random() * 1.9;
-      this.type = Math.random();
+      this.isCyan = Math.random() > 0.4;
     }
 
     update(speed) {
@@ -307,15 +295,12 @@
       ctx.save();
       const grad = ctx.createLinearGradient(px1, py1, px2, py2);
 
-      if (this.type > 0.45) { // Hacker green
-        grad.addColorStop(0, `rgba(0, 255, 136, ${alpha})`);
-        grad.addColorStop(1, 'rgba(0, 119, 254, 0)');
-      } else if (this.type > 0.15) { // Cyan
+      if (this.isCyan) {
         grad.addColorStop(0, `rgba(0, 240, 255, ${alpha})`);
-        grad.addColorStop(1, 'rgba(0, 255, 136, 0)');
-      } else { // Red alert glitch
-        grad.addColorStop(0, `rgba(255, 51, 102, ${alpha})`);
-        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        grad.addColorStop(1, 'rgba(0, 119, 254, 0)');
+      } else {
+        grad.addColorStop(0, `rgba(56, 189, 248, ${alpha})`);
+        grad.addColorStop(1, 'rgba(0, 240, 255, 0)');
       }
 
       ctx.strokeStyle = grad;
@@ -343,7 +328,6 @@
   function init() {
     resize();
 
-    // Spawn 3D Hacking Logs distributed across depth
     hackTags = [];
     const spacing = DEPTH / TAG_COUNT;
     for (let i = 0; i < TAG_COUNT; i++) {
@@ -361,7 +345,7 @@
   function animate() {
     globalTime += 0.016;
 
-    // Dark cyberspace trail fade (Pure deep void - NO central blue light)
+    // Dark cyberspace trail fade (Pure deep void, NO central blue light)
     ctx.fillStyle = 'rgba(3, 6, 14, 0.26)';
     ctx.fillRect(0, 0, width, height);
 
@@ -378,13 +362,13 @@
     // 1. Dark 3D Grid Highway into the Void
     drawGridHighway(currentSpeed);
 
-    // 2. 3D Hacking & Privilege Escalation Streams
+    // 2. 3D Hacking & Privilege Escalation Streams (Pure Blue/Cyan)
     hackTags.forEach(tag => {
       tag.update(currentSpeed);
       tag.draw();
     });
 
-    // 3. High-Speed Cyber Penetration Photons
+    // 3. High-Speed Cyber Penetration Photons (Pure Blue/Cyan)
     streaks.forEach(s => {
       s.update(currentSpeed);
       s.draw();
