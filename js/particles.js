@@ -1,8 +1,8 @@
 /**
- * Clean 3D Cyberspace System Traversal Engine
+ * 3D Cyberspace "Entering The System" Engine
  * Sufi Mahbub Ahmed - Cybersecurity Portfolio
- * Minimalist, high-speed digital highway with sleek perspective grids,
- * clean laser light streams, and subtle cyber portals (uncluttered & words-free).
+ * Features prominent floating 3D security access status tags (SYS_AUTH, FIREWALL BYPASS, MAINFRAME, IUT_SEC_NET),
+ * high-speed perspective grid highway, and cyber photon streaks without heavy box clutter.
  */
 
 (function () {
@@ -20,10 +20,10 @@
   // Projection setup
   const FOCAL_LENGTH = 340;
   const DEPTH = 2200;
-  const TUNNEL_WIDTH = 550;
-  const TUNNEL_HEIGHT = 300;
+  const TUNNEL_WIDTH = 520;
+  const TUNNEL_HEIGHT = 290;
 
-  let baseSpeed = prefersReducedMotion ? 0 : 5.8;
+  let baseSpeed = prefersReducedMotion ? 0 : 5.6;
   let currentSpeed = baseSpeed;
   let scrollBoost = 0;
   let globalTime = 0;
@@ -38,11 +38,111 @@
   }
 
   // =========================================================================
-  // 1. Sleek 3D Grid Highway (Floor & Ceiling Perspective Lines)
+  // 1. 3D Floating Security Status Tags (SYS_AUTH, FIREWALL, MAINFRAME, IUT_SEC_NET)
+  // =========================================================================
+  const SYSTEM_TAGS = [
+    'SYS_AUTH // ACCESS GRANTED',
+    'FIREWALL // BYPASS OK',
+    'MAINFRAME // LEVEL 01',
+    'IUT_SEC_NET // ROOT ACCESS',
+    'SYS_AUTH // ACCESS GRANTED',
+    'FIREWALL // BYPASS OK',
+    'MAINFRAME // LEVEL 01',
+    'IUT_SEC_NET // ROOT ACCESS',
+    'SECURITY_LAYER // VERIFIED',
+    'ENCRYPTION // AES_256',
+    'DATA_PIPELINE // CONNECTED',
+    'SEC_KERNEL // INITIALIZED'
+  ];
+
+  const TAG_COUNT = 14; // Plentiful and constantly streaming
+  let hudTags = [];
+
+  class CyberHUDTag {
+    constructor(initialZ) {
+      this.reset(initialZ);
+    }
+
+    reset(customZ = null) {
+      // Position evenly across the 4 quadrant perimeters
+      const quadrant = Math.floor(Math.random() * 4);
+      if (quadrant === 0) { // Top Left / Upper Left
+        this.x = -220 - Math.random() * 320;
+        this.y = -140 - Math.random() * 160;
+      } else if (quadrant === 1) { // Top Right / Upper Right
+        this.x = 220 + Math.random() * 320;
+        this.y = -140 - Math.random() * 160;
+      } else if (quadrant === 2) { // Bottom Left / Lower Left
+        this.x = -220 - Math.random() * 320;
+        this.y = 140 + Math.random() * 160;
+      } else { // Bottom Right / Lower Right
+        this.x = 220 + Math.random() * 320;
+        this.y = 140 + Math.random() * 160;
+      }
+
+      this.z = customZ !== null ? customZ : (DEPTH - Math.random() * 150);
+      this.text = SYSTEM_TAGS[Math.floor(Math.random() * SYSTEM_TAGS.length)];
+      this.isAccessGranted = this.text.includes('ACCESS GRANTED') || this.text.includes('ROOT ACCESS') || this.text.includes('BYPASS OK');
+    }
+
+    update(speed) {
+      this.z -= speed * 1.1;
+      if (this.z <= 25) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      if (this.z <= 35) return;
+      const scale = FOCAL_LENGTH / this.z;
+      const px = cx + this.x * scale;
+      const py = cy + this.y * scale;
+
+      const depthFactor = 1 - (this.z / DEPTH);
+      const alpha = Math.min(0.9, Math.max(0, depthFactor * 0.95));
+
+      if (alpha <= 0.02) return;
+
+      const fontSize = Math.max(7.5, 13.5 * scale);
+      ctx.save();
+      ctx.font = `600 ${fontSize}px "JetBrains Mono", monospace`;
+
+      // Status indicator dot
+      const dotRadius = Math.max(1.8, 3.5 * scale);
+      ctx.fillStyle = this.isAccessGranted ? `rgba(16, 185, 129, ${alpha})` : `rgba(0, 240, 255, ${alpha})`;
+      ctx.shadowBlur = this.isAccessGranted ? 8 : 6;
+      ctx.shadowColor = this.isAccessGranted ? '#10b981' : '#00f0ff';
+      ctx.beginPath();
+      ctx.arc(px - 10 * scale, py - (fontSize * 0.35), dotRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Cyber text with subtle glow
+      ctx.shadowBlur = scale > 0.4 ? 6 : 0;
+      ctx.shadowColor = 'rgba(0, 240, 255, 0.6)';
+      ctx.fillStyle = `rgba(0, 240, 255, ${alpha * 0.95})`;
+      ctx.fillText(`[ ${this.text} ]`, px, py);
+
+      // Underline trace on closer elements
+      if (scale > 0.4) {
+        const textWidth = ctx.measureText(`[ ${this.text} ]`).width;
+        ctx.strokeStyle = `rgba(0, 240, 255, ${alpha * 0.35})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(px, py + 3 * scale);
+        ctx.lineTo(px + textWidth, py + 3 * scale);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+  }
+
+  // =========================================================================
+  // 2. Sleek 3D Grid Highway (Floor & Ceiling Perspective Rails)
   // =========================================================================
   let gridZOffset = 0;
-  const GRID_SPACING = 120; // Wider spacing = much cleaner look
-  const NUM_Z_LINES = 18;
+  const GRID_SPACING = 110;
+  const NUM_Z_LINES = 20;
 
   function drawGridHighway(speed) {
     gridZOffset = (gridZOffset + speed) % GRID_SPACING;
@@ -50,7 +150,7 @@
     ctx.save();
 
     // Longitudinal Rails extending from horizon
-    const rails = [-700, -480, -300, -150, 0, 150, 300, 480, 700];
+    const rails = [-750, -500, -320, -160, 0, 160, 320, 500, 750];
 
     // Floor Rails
     rails.forEach((rx, i) => {
@@ -66,7 +166,7 @@
       const grad = ctx.createLinearGradient(xFar, yFar, xNear, yNear);
       grad.addColorStop(0, 'rgba(0, 240, 255, 0)');
       grad.addColorStop(0.35, isCenter ? 'rgba(0, 240, 255, 0.22)' : 'rgba(0, 119, 254, 0.08)');
-      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.5)' : 'rgba(0, 119, 254, 0.22)');
+      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.5)' : 'rgba(0, 119, 254, 0.25)');
 
       ctx.strokeStyle = grad;
       ctx.lineWidth = isCenter ? 1.5 : 0.8;
@@ -89,8 +189,8 @@
 
       const grad = ctx.createLinearGradient(xFar, yFar, xNear, yNear);
       grad.addColorStop(0, 'rgba(0, 240, 255, 0)');
-      grad.addColorStop(0.35, isCenter ? 'rgba(0, 240, 255, 0.16)' : 'rgba(0, 119, 254, 0.05)');
-      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.4)' : 'rgba(0, 119, 254, 0.16)');
+      grad.addColorStop(0.35, isCenter ? 'rgba(0, 240, 255, 0.16)' : 'rgba(0, 119, 254, 0.06)');
+      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.4)' : 'rgba(0, 119, 254, 0.18)');
 
       ctx.strokeStyle = grad;
       ctx.lineWidth = isCenter ? 1.5 : 0.8;
@@ -100,9 +200,9 @@
       ctx.stroke();
     });
 
-    // Clean Transverse Z-Lines (Wider spacing, no box clutter)
+    // Transverse Z-Lines (Clean, smooth floor & ceiling grids)
     for (let i = 0; i < NUM_Z_LINES; i++) {
-      const z = (i * GRID_SPACING) - gridZOffset + 40;
+      const z = (i * GRID_SPACING) - gridZOffset + 35;
       if (z <= 30 || z >= DEPTH) continue;
 
       const scale = FOCAL_LENGTH / z;
@@ -113,7 +213,7 @@
 
       const floorY = cy + TUNNEL_HEIGHT * scale;
       const ceilY = cy - TUNNEL_HEIGHT * scale;
-      const spanW = 850 * scale;
+      const spanW = 880 * scale;
 
       ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
       ctx.lineWidth = Math.max(0.6, 1.8 * scale);
@@ -135,83 +235,9 @@
   }
 
   // =========================================================================
-  // 2. Minimalist Cyber Portal Arches (Only 2 Clean Sleek Rings, No Word Clutter)
+  // 3. High-Speed Light Rays & Photons (Clean Data Streams)
   // =========================================================================
-  const PORTAL_COUNT = 2; // Drastically reduced from 6 heavy boxes
-  const PORTAL_SPACING = DEPTH / PORTAL_COUNT;
-  let portals = [];
-
-  class MinimalPortal {
-    constructor(z) {
-      this.z = z;
-      this.w = TUNNEL_WIDTH * 2.1;
-      this.h = TUNNEL_HEIGHT * 2.1;
-    }
-
-    update(speed) {
-      this.z -= speed;
-      if (this.z <= 25) {
-        this.z += DEPTH;
-      }
-    }
-
-    draw() {
-      if (this.z <= 35) return;
-      const scale = FOCAL_LENGTH / this.z;
-      const sw = this.w * scale;
-      const sh = this.h * scale;
-      const gx = cx - sw / 2;
-      const gy = cy - sh / 2;
-
-      const depthFactor = 1 - (this.z / DEPTH);
-      const alpha = Math.min(0.65, Math.max(0, depthFactor * 0.55));
-
-      if (alpha <= 0.02) return;
-
-      ctx.save();
-
-      // Sleek Corner Brackets (Open & minimal, not a heavy enclosed box)
-      const cLen = Math.min(35, 30 * scale);
-      ctx.strokeStyle = `rgba(0, 240, 255, ${alpha * 1.2})`;
-      ctx.lineWidth = Math.max(1.2, 2.6 * scale);
-
-      // Top-Left
-      ctx.beginPath();
-      ctx.moveTo(gx, gy + cLen);
-      ctx.lineTo(gx, gy);
-      ctx.lineTo(gx + cLen, gy);
-      // Top-Right
-      ctx.moveTo(gx + sw - cLen, gy);
-      ctx.lineTo(gx + sw, gy);
-      ctx.lineTo(gx + sw, gy + cLen);
-      // Bottom-Left
-      ctx.moveTo(gx, gy + sh - cLen);
-      ctx.lineTo(gx, gy + sh);
-      ctx.lineTo(gx + cLen, gy + sh);
-      // Bottom-Right
-      ctx.moveTo(gx + sw - cLen, gy + sh);
-      ctx.lineTo(gx + sw, gy + sh);
-      ctx.lineTo(gx + sw, gy + sh - cLen);
-      ctx.stroke();
-
-      // Subtle lateral tick marks
-      ctx.strokeStyle = `rgba(0, 240, 255, ${alpha * 0.5})`;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(gx - 15 * scale, gy + sh / 2);
-      ctx.lineTo(gx + 15 * scale, gy + sh / 2);
-      ctx.moveTo(gx + sw - 15 * scale, gy + sh / 2);
-      ctx.lineTo(gx + sw + 15 * scale, gy + sh / 2);
-      ctx.stroke();
-
-      ctx.restore();
-    }
-  }
-
-  // =========================================================================
-  // 3. High-Speed Light Rays & Photons (Smooth & Aesthetic Data Streaks)
-  // =========================================================================
-  const STREAK_COUNT = 95;
+  const STREAK_COUNT = 90;
   let streaks = [];
 
   class LightStreak {
@@ -236,7 +262,7 @@
       }
 
       this.z = initial ? Math.random() * DEPTH : DEPTH - Math.random() * 100;
-      this.len = 70 + Math.random() * 140;
+      this.len = 70 + Math.random() * 130;
       this.speedMult = 1.2 + Math.random() * 1.8;
       this.colorType = Math.random();
     }
@@ -266,7 +292,7 @@
       ctx.save();
       const grad = ctx.createLinearGradient(px1, py1, px2, py2);
 
-      if (this.colorType > 0.4) {
+      if (this.colorType > 0.35) {
         grad.addColorStop(0, `rgba(0, 240, 255, ${alpha})`);
         grad.addColorStop(1, 'rgba(0, 119, 254, 0)');
       } else if (this.colorType > 0.15) {
@@ -297,14 +323,14 @@
   }
 
   // =========================================================================
-  // 4. Subtle Horizon Nexus Glow
+  // 4. Horizon Mainframe Core Glow
   // =========================================================================
   function drawHorizonNexus() {
     ctx.save();
     const pulse = 1 + Math.sin(globalTime * 2.2) * 0.06;
     const grad = ctx.createRadialGradient(cx, cy, 2, cx, cy, 160 * pulse);
-    grad.addColorStop(0, 'rgba(0, 240, 255, 0.38)');
-    grad.addColorStop(0.3, 'rgba(0, 119, 254, 0.16)');
+    grad.addColorStop(0, 'rgba(0, 240, 255, 0.4)');
+    grad.addColorStop(0.3, 'rgba(0, 119, 254, 0.18)');
     grad.addColorStop(0.7, 'rgba(11, 19, 36, 0.04)');
     grad.addColorStop(1, 'transparent');
 
@@ -318,20 +344,22 @@
     ctx.shadowBlur = 15;
     ctx.shadowColor = '#00f0ff';
     ctx.beginPath();
-    ctx.arc(cx, cy, 2.2, 0, Math.PI * 2);
+    ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   }
 
   // =========================================================================
-  // Init & Loop
+  // Initialization & Main Loop
   // =========================================================================
   function init() {
     resize();
 
-    portals = [];
-    for (let i = 0; i < PORTAL_COUNT; i++) {
-      portals.push(new MinimalPortal(i * PORTAL_SPACING + 100));
+    // Initialize 3D HUD Tags at distributed depths
+    hudTags = [];
+    const spacing = DEPTH / TAG_COUNT;
+    for (let i = 0; i < TAG_COUNT; i++) {
+      hudTags.push(new CyberHUDTag(i * spacing + 100));
     }
 
     streaks = [];
@@ -346,14 +374,14 @@
     globalTime += 0.016;
 
     // Dark cyberspace trail fade
-    ctx.fillStyle = 'rgba(4, 7, 16, 0.26)';
+    ctx.fillStyle = 'rgba(4, 7, 16, 0.25)';
     ctx.fillRect(0, 0, width, height);
 
-    // Smooth camera steering
+    // Smooth camera steer
     cx += (targetCx - cx) * 0.06;
     cy += (targetCy - cy) * 0.06;
 
-    // Scroll speed boost
+    // Scroll speed acceleration
     if (scrollBoost > 0) {
       scrollBoost *= 0.93;
     }
@@ -362,16 +390,16 @@
     // 1. Horizon Nexus
     drawHorizonNexus();
 
-    // 2. Clean 3D Grid Highway
+    // 2. Clean 3D Perspective Grid Highway
     drawGridHighway(currentSpeed);
 
-    // 3. Minimalist Portal Arches
-    portals.forEach(p => {
-      p.update(currentSpeed);
-      p.draw();
+    // 3. 3D Floating System Status Tags (SYS_AUTH, FIREWALL, MAINFRAME, IUT_SEC_NET)
+    hudTags.forEach(tag => {
+      tag.update(currentSpeed);
+      tag.draw();
     });
 
-    // 4. High-speed Light Streaks
+    // 4. High-speed Light Photons
     streaks.forEach(s => {
       s.update(currentSpeed);
       s.draw();
