@@ -1,8 +1,8 @@
 /**
- * Interactive Node Constellation Canvas with Blue & Red Cyber Breach Words
+ * Interactive Node Constellation Canvas with Full-Screen Blue & Red Security Words
  * Sufi Mahbub Ahmed - Cybersecurity Portfolio
- * Features connected network nodes that react to mouse movements alongside
- * streaming blue and red security access / hacking status words.
+ * Distributes streaming blue and red security words across the entire screen
+ * (top, middle, and bottom zones) alongside mouse-reactive constellation nodes.
  */
 
 (function () {
@@ -19,7 +19,7 @@
   const mouse = {
     x: null,
     y: null,
-    radius: 170
+    radius: 175
   };
 
   function resize() {
@@ -30,8 +30,8 @@
   // =========================================================================
   // 1. Interactive Node Constellation Network
   // =========================================================================
-  const NODE_COUNT = 75;
-  const CONNECTION_DIST = 135;
+  const NODE_COUNT = 80;
+  const CONNECTION_DIST = 140;
   let nodes = [];
 
   class NetworkNode {
@@ -42,13 +42,12 @@
     }
 
     reset() {
-      this.vx = (Math.random() - 0.5) * (prefersReducedMotion ? 0 : 0.6);
-      this.vy = (Math.random() - 0.5) * (prefersReducedMotion ? 0 : 0.6);
+      this.vx = (Math.random() - 0.5) * (prefersReducedMotion ? 0 : 0.55);
+      this.vy = (Math.random() - 0.5) * (prefersReducedMotion ? 0 : 0.55);
       this.radius = Math.random() * 2 + 1;
       this.baseAlpha = Math.random() * 0.45 + 0.25;
       this.alpha = this.baseAlpha;
-      // 70% blue/cyan nodes, 30% red alert nodes
-      this.isRed = Math.random() > 0.7;
+      this.isRed = Math.random() > 0.7; // 70% blue, 30% red
     }
 
     update() {
@@ -57,13 +56,13 @@
       this.x += this.vx;
       this.y += this.vy;
 
-      // Wrap screen edges
+      // Wrap edges
       if (this.x < -20) this.x = width + 20;
       if (this.x > width + 20) this.x = -20;
       if (this.y < -20) this.y = height + 20;
       if (this.y > height + 20) this.y = -20;
 
-      // Mouse repulsion / proximity reaction
+      // Mouse proximity interaction
       if (mouse.x !== null && mouse.y !== null) {
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
@@ -101,7 +100,6 @@
     }
   }
 
-  // Draw connecting constellation lines
   function drawConstellationLines() {
     for (let a = 0; a < nodes.length; a++) {
       for (let b = a + 1; b < nodes.length; b++) {
@@ -113,7 +111,6 @@
           const opacity = (1 - dist / CONNECTION_DIST) * 0.22;
           ctx.beginPath();
 
-          // Mix colors if one is red
           if (nodes[a].isRed || nodes[b].isRed) {
             ctx.strokeStyle = `rgba(255, 51, 102, ${opacity * 0.85})`;
           } else {
@@ -127,7 +124,7 @@
         }
       }
 
-      // Connect to mouse cursor
+      // Mouse connection line
       if (mouse.x !== null && mouse.y !== null) {
         const dx = nodes[a].x - mouse.x;
         const dy = nodes[a].y - mouse.y;
@@ -149,7 +146,7 @@
   }
 
   // =========================================================================
-  // 2. Floating Blue and Red Hacking / System Words
+  // 2. Full-Screen Blue & Red Security Words (Top, Middle, and Bottom Bands)
   // =========================================================================
   const WORDS_BLUE = [
     '> SYS_AUTH // ACCESS GRANTED',
@@ -159,7 +156,9 @@
     '> MEMORY_INJECTION // 0x0040',
     '> PACKET_SNIFFER // ACTIVE',
     '> PORT_SCAN::STEALTH_ACK [443]',
-    '> KERNEL_HOOK // ATTACHED'
+    '> KERNEL_HOOK // ATTACHED',
+    '> TLS_HANDSHAKE // VERIFIED',
+    '> DEFENSE_NODE // ONLINE'
   ];
 
   const WORDS_RED = [
@@ -168,14 +167,17 @@
     '> INJECTING_PAYLOAD // CRITICAL',
     '> EXPLOIT::BUFFER_OVERFLOW [ALERT]',
     '> PRIVILEGE_ESCALATION [BREACH]',
-    '> SECURITY_ALERT // INTRUSION_OK'
+    '> SECURITY_ALERT // INTRUSION_OK',
+    '> PAYLOAD_DELIVERY // SUCCESS',
+    '> ZERO_DAY // EXECUTION_OK'
   ];
 
-  const FLOATING_WORD_COUNT = 14;
+  const FLOATING_WORD_COUNT = 24; // Abundant coverage across entire screen
   let floatingWords = [];
 
-  class FloatingWord {
-    constructor() {
+  class FullScreenFloatingWord {
+    constructor(zoneIndex) {
+      this.zoneIndex = zoneIndex;
       this.reset(true);
     }
 
@@ -185,26 +187,38 @@
         ? WORDS_RED[Math.floor(Math.random() * WORDS_RED.length)]
         : WORDS_BLUE[Math.floor(Math.random() * WORDS_BLUE.length)];
 
-      this.x = Math.random() * (width - 150) + 50;
-      this.y = initial ? Math.random() * (height - 50) + 50 : (Math.random() > 0.5 ? -30 : height + 30);
-      
-      this.vx = (Math.random() - 0.5) * 0.4;
-      this.vy = (Math.random() - 0.5) * 0.4;
-      if (Math.abs(this.vx) < 0.1) this.vx = 0.2;
-      if (Math.abs(this.vy) < 0.1) this.vy = -0.2;
+      // Distribute strictly across 4 screen bands (0 = Top, 1 = Upper Mid, 2 = Lower Mid, 3 = Bottom)
+      const band = this.zoneIndex % 4;
+      const zoneHeight = height / 4;
+      const minY = band * zoneHeight + 20;
+      const maxY = (band + 1) * zoneHeight - 20;
 
-      this.fontSize = Math.floor(Math.random() * 3) + 11; // 11px - 13px
-      this.maxAlpha = Math.random() * 0.35 + 0.45; // 0.45 - 0.8
-      this.alpha = 0;
-      this.fadeState = 'in'; // 'in', 'hold', 'out'
-      this.lifeTime = Math.random() * 300 + 200;
+      // X position
+      if (initial) {
+        this.x = Math.random() * (width - 240) + 20;
+      } else {
+        // Spawn from left or right edge
+        this.x = Math.random() > 0.5 ? -260 : width + 20;
+      }
+
+      this.y = Math.random() * (maxY - minY) + minY;
+
+      const dir = Math.random() > 0.5 ? 1 : -1;
+      this.vx = dir * (Math.random() * 0.4 + 0.22);
+      this.vy = (Math.random() - 0.5) * 0.18;
+
+      this.fontSize = Math.floor(Math.random() * 3) + 11;
+      this.maxAlpha = Math.random() * 0.35 + 0.48;
+      this.alpha = initial ? (Math.random() * 0.35 + 0.35) : 0;
+      this.fadeState = initial ? 'hold' : 'in';
+      this.lifeTime = Math.random() * 450 + 250;
     }
 
     update() {
       this.x += this.vx;
       this.y += this.vy;
 
-      // Handle smooth fade in / fade out
+      // Smooth fade lifecycle
       if (this.fadeState === 'in') {
         this.alpha += 0.015;
         if (this.alpha >= this.maxAlpha) {
@@ -223,8 +237,8 @@
         }
       }
 
-      // Edge reset
-      if (this.x < -100 || this.x > width + 100 || this.y < -50 || this.y > height + 50) {
+      // Boundary reset
+      if (this.x < -300 || this.x > width + 100) {
         this.reset();
       }
     }
@@ -249,7 +263,7 @@
       ctx.arc(this.x - 8, this.y - (this.fontSize * 0.35), 2.5, 0, Math.PI * 2);
       ctx.fill();
 
-      // Text string
+      // Word string
       ctx.fillStyle = colorStr;
       ctx.shadowBlur = 4;
       ctx.shadowColor = glowStr;
@@ -265,34 +279,33 @@
   function init() {
     resize();
 
-    // Spawn network nodes
+    // Spawn constellation nodes
     nodes = [];
     const count = Math.min(NODE_COUNT, Math.floor((width * height) / 14000));
     for (let i = 0; i < count; i++) {
       nodes.push(new NetworkNode());
     }
 
-    // Spawn blue and red floating words
+    // Spawn words evenly across Top, Upper Mid, Lower Mid, and Bottom zones
     floatingWords = [];
     for (let i = 0; i < FLOATING_WORD_COUNT; i++) {
-      floatingWords.push(new FloatingWord());
+      floatingWords.push(new FullScreenFloatingWord(i));
     }
   }
 
   function animate() {
-    // Clear canvas
     ctx.clearRect(0, 0, width, height);
 
     // 1. Draw Constellation Network Lines
     drawConstellationLines();
 
-    // 2. Update and Draw Nodes
+    // 2. Draw Interactive Constellation Nodes
     nodes.forEach(n => {
       n.update();
       n.draw();
     });
 
-    // 3. Update and Draw Floating Blue & Red Hacking Words
+    // 3. Draw Blue & Red Words Across Top, Middle, and Bottom
     floatingWords.forEach(w => {
       w.update();
       w.draw();
