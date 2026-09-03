@@ -1,8 +1,9 @@
 /**
- * "Hacking Through The System" Cyberspace Engine (Pure Cyber-Blue Edition)
+ * "Heart of the System" 3D Cyber Circuit Engine
  * Sufi Mahbub Ahmed - Cybersecurity Portfolio
- * Deep endless dark cyber-breach void with pure neon-cyan & electric-blue
- * terminal injection logs, root escalation streams, and 3D data penetration.
+ * Replaces plain grid rectangles with procedural 3D PCB circuit board traces,
+ * glowing solder via nodes, 45-degree bus lines, electrical data pulses,
+ * and pure blue terminal penetration logs streaming into the dark mainframe core.
  */
 
 (function () {
@@ -17,13 +18,12 @@
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // 3D Projection Setup
+  // 3D Projection Configuration
   const FOCAL_LENGTH = 340;
   const DEPTH = 2400;
-  const TUNNEL_WIDTH = 540;
-  const TUNNEL_HEIGHT = 290;
+  const CIRCUIT_PLANE_Y = 270; // Distance of ceiling and floor circuit boards from center
 
-  let baseSpeed = prefersReducedMotion ? 0 : 6.2;
+  let baseSpeed = prefersReducedMotion ? 0 : 6.0;
   let currentSpeed = baseSpeed;
   let scrollBoost = 0;
   let globalTime = 0;
@@ -38,7 +38,198 @@
   }
 
   // =========================================================================
-  // 1. Live Hacking Logs (Pure Cyber-Blue & Cyan Palette)
+  // 1. Procedural 3D PCB Circuit Traces & Bus Pathways (Floor & Ceiling)
+  // =========================================================================
+  const CIRCUIT_TRACKS = [
+    // Center main data bus
+    { x: 0, dx: 0, isBus: true },
+    { x: -50, dx: -50, isBus: true },
+    { x: 50, dx: 50, isBus: true },
+
+    // Mid-flank branching circuit traces with 45° step-outs
+    { x: -160, dx: -240, isBus: false },
+    { x: 160, dx: 240, isBus: false },
+    { x: -300, dx: -420, isBus: false },
+    { x: 300, dx: 420, isBus: false },
+
+    // Outer peripheral motherboard power & address lines
+    { x: -480, dx: -680, isBus: true },
+    { x: 480, dx: 680, isBus: true },
+    { x: -650, dx: -850, isBus: false },
+    { x: 650, dx: 850, isBus: false }
+  ];
+
+  // Moving Z-segments & Solder Via Nodes
+  let circuitZOffset = 0;
+  const NODE_SPACING = 160;
+  const NUM_Z_NODES = 16;
+
+  function drawCircuitBoard(isCeiling, speed) {
+    const planeSign = isCeiling ? -1 : 1;
+    const planeY = planeSign * CIRCUIT_PLANE_Y;
+
+    ctx.save();
+
+    // 1. Draw Longitudinal Circuit Bus Lines
+    CIRCUIT_TRACKS.forEach(track => {
+      const scaleFar = FOCAL_LENGTH / DEPTH;
+      const scaleNear = FOCAL_LENGTH / 35;
+
+      const xFar = cx + track.x * scaleFar;
+      const yFar = cy + planeY * scaleFar;
+
+      const xNear = cx + track.dx * scaleNear;
+      const yNear = cy + (planeY + (isCeiling ? -250 : 250)) * scaleNear;
+
+      const grad = ctx.createLinearGradient(xFar, yFar, xNear, yNear);
+      grad.addColorStop(0, 'rgba(0, 240, 255, 0)');
+      grad.addColorStop(0.3, track.isBus ? 'rgba(0, 240, 255, 0.18)' : 'rgba(0, 119, 254, 0.1)');
+      grad.addColorStop(1, track.isBus ? 'rgba(0, 240, 255, 0.6)' : 'rgba(0, 119, 254, 0.35)');
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = track.isBus ? 1.5 : 0.9;
+      ctx.beginPath();
+      ctx.moveTo(xFar, yFar);
+      ctx.lineTo(xNear, yNear);
+      ctx.stroke();
+    });
+
+    // 2. Draw Circuit Nodes, Solder Via Pads & 45-degree Cross-Traces
+    for (let i = 0; i < NUM_Z_NODES; i++) {
+      const z = (i * NODE_SPACING) - circuitZOffset + 40;
+      if (z <= 30 || z >= DEPTH) continue;
+
+      const scale = FOCAL_LENGTH / z;
+      const depthFactor = Math.pow(1 - (z / DEPTH), 1.5);
+      const alpha = Math.min(0.75, depthFactor * 0.85);
+
+      if (alpha <= 0.02) continue;
+
+      const nodeY = cy + (planeY + (isCeiling ? -30 : 30)) * scale;
+
+      // Draw horizontal & 45-degree circuit bridging lines
+      const trackLeftX = cx + (-300) * scale;
+      const trackRightX = cx + (300) * scale;
+
+      // Subtle circuit bridge trace
+      if (i % 2 === 0) {
+        ctx.strokeStyle = `rgba(0, 240, 255, ${alpha * 0.45})`;
+        ctx.lineWidth = Math.max(0.7, 1.4 * scale);
+        ctx.beginPath();
+        ctx.moveTo(trackLeftX, nodeY);
+        ctx.lineTo(trackRightX, nodeY);
+        ctx.stroke();
+      }
+
+      // Solder Via Pads (Circular PCB contact pads)
+      const padPositions = [-480, -300, -160, -50, 0, 50, 160, 300, 480];
+      padPositions.forEach((pxPos, pIdx) => {
+        // Only draw pads on selective grid intersections for realistic PCB pattern
+        if ((i + pIdx) % 3 !== 0) return;
+
+        const padX = cx + pxPos * scale;
+        const padRadius = Math.max(1.5, 3.8 * scale);
+
+        // Outer solder ring
+        ctx.strokeStyle = `rgba(0, 240, 255, ${alpha * 0.85})`;
+        ctx.lineWidth = Math.max(0.8, 1.5 * scale);
+        ctx.beginPath();
+        ctx.arc(padX, nodeY, padRadius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Inner glowing via pin
+        if (scale > 0.3) {
+          ctx.fillStyle = `rgba(0, 240, 255, ${alpha})`;
+          ctx.beginPath();
+          ctx.arc(padX, nodeY, Math.max(0.8, 1.4 * scale), 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+    }
+
+    ctx.restore();
+  }
+
+  // =========================================================================
+  // 2. High-Speed Electrical Current Signals (Flowing through Circuit Tracks)
+  // =========================================================================
+  const SIGNAL_COUNT = 36;
+  let signals = [];
+
+  class CircuitSignal {
+    constructor() {
+      this.reset(true);
+    }
+
+    reset(initial = false) {
+      this.isCeiling = Math.random() > 0.5;
+      const track = CIRCUIT_TRACKS[Math.floor(Math.random() * CIRCUIT_TRACKS.length)];
+      this.trackX = track.x;
+      this.targetDX = track.dx;
+      this.z = initial ? Math.random() * DEPTH : DEPTH - Math.random() * 80;
+      this.len = 45 + Math.random() * 90;
+      this.speedMult = 1.4 + Math.random() * 1.8;
+      this.isCyan = Math.random() > 0.3;
+    }
+
+    update(speed) {
+      this.z -= speed * this.speedMult;
+      if (this.z <= 25) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      if (this.z <= 35) return;
+      const scale1 = FOCAL_LENGTH / this.z;
+      const scale2 = FOCAL_LENGTH / (this.z + this.len);
+
+      const planeY = (this.isCeiling ? -1 : 1) * CIRCUIT_PLANE_Y;
+
+      // Interpolate X based on Z progression (following 45° track divergence)
+      const t1 = 1 - (this.z / DEPTH);
+      const currX1 = this.trackX + (this.targetDX - this.trackX) * t1;
+
+      const t2 = 1 - ((this.z + this.len) / DEPTH);
+      const currX2 = this.trackX + (this.targetDX - this.trackX) * t2;
+
+      const px1 = cx + currX1 * scale1;
+      const py1 = cy + planeY * scale1;
+
+      const px2 = cx + currX2 * scale2;
+      const py2 = cy + planeY * scale2;
+
+      const depthFactor = 1 - (this.z / DEPTH);
+      const alpha = Math.min(0.95, Math.max(0, depthFactor * 0.95));
+
+      if (alpha <= 0.02) return;
+
+      ctx.save();
+      const grad = ctx.createLinearGradient(px1, py1, px2, py2);
+      grad.addColorStop(0, `rgba(0, 240, 255, ${alpha})`);
+      grad.addColorStop(1, 'rgba(0, 119, 254, 0)');
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = Math.max(1.2, 3.2 * scale1);
+      ctx.beginPath();
+      ctx.moveTo(px1, py1);
+      ctx.lineTo(px2, py2);
+      ctx.stroke();
+
+      // Glowing current electron head
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowBlur = scale1 > 0.4 ? 10 : 4;
+      ctx.shadowColor = '#00f0ff';
+      ctx.beginPath();
+      ctx.arc(px1, py1, Math.max(1.2, 2.5 * scale1), 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
+  }
+
+  // =========================================================================
+  // 3. Live 3D Hacking Streams (Pure Cyber-Blue Palette)
   // =========================================================================
   const HACK_LOGS = [
     '> INJECTING_PAYLOAD // OK',
@@ -55,7 +246,7 @@
     '> KERNEL_HOOK // ATTACHED'
   ];
 
-  const TAG_COUNT = 16;
+  const TAG_COUNT = 15;
   let hackTags = [];
 
   class HackingTag {
@@ -67,21 +258,21 @@
       const quadrant = Math.floor(Math.random() * 4);
       if (quadrant === 0) { // Top Left
         this.x = -240 - Math.random() * 340;
-        this.y = -140 - Math.random() * 160;
+        this.y = -130 - Math.random() * 150;
       } else if (quadrant === 1) { // Top Right
         this.x = 240 + Math.random() * 340;
-        this.y = -140 - Math.random() * 160;
+        this.y = -130 - Math.random() * 150;
       } else if (quadrant === 2) { // Bottom Left
         this.x = -240 - Math.random() * 340;
-        this.y = 140 + Math.random() * 160;
+        this.y = 130 + Math.random() * 150;
       } else { // Bottom Right
         this.x = 240 + Math.random() * 340;
-        this.y = 140 + Math.random() * 160;
+        this.y = 130 + Math.random() * 150;
       }
 
       this.z = customZ !== null ? customZ : (DEPTH - Math.random() * 180);
       this.text = HACK_LOGS[Math.floor(Math.random() * HACK_LOGS.length)];
-      this.speedMult = 1.0 + Math.random() * 0.4;
+      this.speedMult = 1.0 + Math.random() * 0.35;
     }
 
     update(speed) {
@@ -106,16 +297,13 @@
       ctx.save();
       ctx.font = `600 ${fontSize}px "JetBrains Mono", monospace`;
 
-      // Pure Cyber Blue / Cyan Color Scheme
       const mainColor = `rgba(0, 240, 255, ${alpha * 0.95})`;
-      const dotColor = `rgba(0, 240, 255, ${alpha})`;
-      const glowColor = '#00f0ff';
 
       // Status indicator dot
       const dotRadius = Math.max(1.8, 3.5 * scale);
-      ctx.fillStyle = dotColor;
+      ctx.fillStyle = mainColor;
       ctx.shadowBlur = scale > 0.3 ? 8 : 0;
-      ctx.shadowColor = glowColor;
+      ctx.shadowColor = '#00f0ff';
       ctx.beginPath();
       ctx.arc(px - 10 * scale, py - (fontSize * 0.35), dotRadius, 0, Math.PI * 2);
       ctx.fill();
@@ -125,7 +313,7 @@
       ctx.shadowBlur = scale > 0.4 ? 6 : 0;
       ctx.fillText(this.text, px, py);
 
-      // Cyber underline trace on closer tags
+      // Underline trace on closer tags
       if (scale > 0.45) {
         const textWidth = ctx.measureText(this.text).width;
         ctx.strokeStyle = `rgba(0, 240, 255, ${alpha * 0.4})`;
@@ -141,133 +329,23 @@
   }
 
   // =========================================================================
-  // 2. Dark Wireframe Breach Grid (Floor & Ceiling Rails)
+  // 4. High-Speed Peripheral Cyber Photons
   // =========================================================================
-  let gridZOffset = 0;
-  const GRID_SPACING = 110;
-  const NUM_Z_LINES = 22;
+  const PHOTON_COUNT = 55;
+  let photons = [];
 
-  function drawGridHighway(speed) {
-    gridZOffset = (gridZOffset + speed) % GRID_SPACING;
-
-    ctx.save();
-
-    // Longitudinal Rails extending into the deep dark void
-    const rails = [-800, -520, -320, -160, 0, 160, 320, 520, 800];
-
-    // Floor Rails (Pure Cyber Cyan & Blue)
-    rails.forEach((rx, i) => {
-      const isCenter = rx === 0;
-      const scaleFar = FOCAL_LENGTH / DEPTH;
-      const scaleNear = FOCAL_LENGTH / 35;
-
-      const xFar = cx + rx * scaleFar;
-      const yFar = cy + TUNNEL_HEIGHT * scaleFar;
-      const xNear = cx + rx * scaleNear;
-      const yNear = cy + (TUNNEL_HEIGHT + 350) * scaleNear;
-
-      const grad = ctx.createLinearGradient(xFar, yFar, xNear, yNear);
-      grad.addColorStop(0, 'rgba(0, 240, 255, 0)');
-      grad.addColorStop(0.35, isCenter ? 'rgba(0, 240, 255, 0.25)' : 'rgba(0, 119, 254, 0.08)');
-      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.55)' : 'rgba(0, 119, 254, 0.25)');
-
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = isCenter ? 1.6 : 0.8;
-      ctx.beginPath();
-      ctx.moveTo(xFar, yFar);
-      ctx.lineTo(xNear, yNear);
-      ctx.stroke();
-    });
-
-    // Ceiling Rails
-    rails.forEach((rx, i) => {
-      const isCenter = rx === 0;
-      const scaleFar = FOCAL_LENGTH / DEPTH;
-      const scaleNear = FOCAL_LENGTH / 35;
-
-      const xFar = cx + rx * scaleFar;
-      const yFar = cy - TUNNEL_HEIGHT * scaleFar;
-      const xNear = cx + rx * scaleNear;
-      const yNear = cy - (TUNNEL_HEIGHT + 350) * scaleNear;
-
-      const grad = ctx.createLinearGradient(xFar, yFar, xNear, yNear);
-      grad.addColorStop(0, 'rgba(0, 240, 255, 0)');
-      grad.addColorStop(0.35, isCenter ? 'rgba(0, 240, 255, 0.2)' : 'rgba(0, 119, 254, 0.06)');
-      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.45)' : 'rgba(0, 119, 254, 0.18)');
-
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = isCenter ? 1.6 : 0.8;
-      ctx.beginPath();
-      ctx.moveTo(xFar, yFar);
-      ctx.lineTo(xNear, yNear);
-      ctx.stroke();
-    });
-
-    // Transverse Scanning Lines
-    for (let i = 0; i < NUM_Z_LINES; i++) {
-      const z = (i * GRID_SPACING) - gridZOffset + 35;
-      if (z <= 30 || z >= DEPTH) continue;
-
-      const scale = FOCAL_LENGTH / z;
-      const depthFactor = Math.pow(1 - (z / DEPTH), 1.6);
-      const alpha = Math.min(0.55, depthFactor * 0.65);
-
-      if (alpha <= 0.01) continue;
-
-      const floorY = cy + TUNNEL_HEIGHT * scale;
-      const ceilY = cy - TUNNEL_HEIGHT * scale;
-      const spanW = 900 * scale;
-
-      ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
-      ctx.lineWidth = Math.max(0.6, 1.8 * scale);
-
-      // Floor line
-      ctx.beginPath();
-      ctx.moveTo(cx - spanW, floorY);
-      ctx.lineTo(cx + spanW, floorY);
-      ctx.stroke();
-
-      // Ceiling line
-      ctx.beginPath();
-      ctx.moveTo(cx - spanW, ceilY);
-      ctx.lineTo(cx + spanW, ceilY);
-      ctx.stroke();
-    }
-
-    ctx.restore();
-  }
-
-  // =========================================================================
-  // 3. High-Speed Cyber Photons (Pure Electric Blue & Cyan Streaks)
-  // =========================================================================
-  const STREAK_COUNT = 95;
-  let streaks = [];
-
-  class HackingStreak {
+  class PeripheralPhoton {
     constructor() {
       this.reset(true);
     }
 
     reset(initial = false) {
-      const side = Math.floor(Math.random() * 4);
-      if (side === 0) { // Floor
-        this.x = (Math.random() - 0.5) * TUNNEL_WIDTH * 2.4;
-        this.y = TUNNEL_HEIGHT + Math.random() * 160;
-      } else if (side === 1) { // Ceiling
-        this.x = (Math.random() - 0.5) * TUNNEL_WIDTH * 2.4;
-        this.y = -TUNNEL_HEIGHT - Math.random() * 160;
-      } else if (side === 2) { // Left flank
-        this.x = -TUNNEL_WIDTH - Math.random() * 180;
-        this.y = (Math.random() - 0.5) * TUNNEL_HEIGHT * 2.2;
-      } else { // Right flank
-        this.x = TUNNEL_WIDTH + Math.random() * 180;
-        this.y = (Math.random() - 0.5) * TUNNEL_HEIGHT * 2.2;
-      }
-
+      const isLeft = Math.random() > 0.5;
+      this.x = (isLeft ? -1 : 1) * (380 + Math.random() * 260);
+      this.y = (Math.random() - 0.5) * 450;
       this.z = initial ? Math.random() * DEPTH : DEPTH - Math.random() * 100;
-      this.len = 80 + Math.random() * 150;
-      this.speedMult = 1.3 + Math.random() * 1.9;
-      this.isCyan = Math.random() > 0.4;
+      this.len = 60 + Math.random() * 110;
+      this.speedMult = 1.3 + Math.random() * 1.8;
     }
 
     update(speed) {
@@ -288,35 +366,21 @@
       const py2 = cy + this.y * scale2;
 
       const depthFactor = 1 - (this.z / DEPTH);
-      const alpha = Math.min(0.9, Math.max(0, depthFactor * 0.9));
+      const alpha = Math.min(0.85, Math.max(0, depthFactor * 0.85));
 
       if (alpha <= 0.01) return;
 
       ctx.save();
       const grad = ctx.createLinearGradient(px1, py1, px2, py2);
-
-      if (this.isCyan) {
-        grad.addColorStop(0, `rgba(0, 240, 255, ${alpha})`);
-        grad.addColorStop(1, 'rgba(0, 119, 254, 0)');
-      } else {
-        grad.addColorStop(0, `rgba(56, 189, 248, ${alpha})`);
-        grad.addColorStop(1, 'rgba(0, 240, 255, 0)');
-      }
+      grad.addColorStop(0, `rgba(0, 240, 255, ${alpha})`);
+      grad.addColorStop(1, 'rgba(0, 119, 254, 0)');
 
       ctx.strokeStyle = grad;
-      ctx.lineWidth = Math.max(0.8, 2.6 * scale1);
+      ctx.lineWidth = Math.max(0.8, 2.4 * scale1);
       ctx.beginPath();
       ctx.moveTo(px1, py1);
       ctx.lineTo(px2, py2);
       ctx.stroke();
-
-      // Glowing photon head
-      if (scale1 > 0.5) {
-        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-        ctx.beginPath();
-        ctx.arc(px1, py1, Math.max(1, 2.2 * scale1), 0, Math.PI * 2);
-        ctx.fill();
-      }
 
       ctx.restore();
     }
@@ -328,15 +392,20 @@
   function init() {
     resize();
 
+    signals = [];
+    for (let i = 0; i < SIGNAL_COUNT; i++) {
+      signals.push(new CircuitSignal());
+    }
+
     hackTags = [];
     const spacing = DEPTH / TAG_COUNT;
     for (let i = 0; i < TAG_COUNT; i++) {
       hackTags.push(new HackingTag(i * spacing + 80));
     }
 
-    streaks = [];
-    for (let i = 0; i < STREAK_COUNT; i++) {
-      streaks.push(new HackingStreak());
+    photons = [];
+    for (let i = 0; i < PHOTON_COUNT; i++) {
+      photons.push(new PeripheralPhoton());
     }
   }
 
@@ -345,33 +414,41 @@
   function animate() {
     globalTime += 0.016;
 
-    // Dark cyberspace trail fade (Pure deep void, NO central blue light)
-    ctx.fillStyle = 'rgba(3, 6, 14, 0.26)';
+    // Deep Dark Void Canvas Refresh (NO central light blob)
+    ctx.fillStyle = 'rgba(3, 6, 14, 0.28)';
     ctx.fillRect(0, 0, width, height);
 
-    // Smooth camera steering with mouse
+    // Smooth camera steer
     cx += (targetCx - cx) * 0.06;
     cy += (targetCy - cy) * 0.06;
 
-    // Scroll speed boost
+    // Scroll speed acceleration
     if (scrollBoost > 0) {
       scrollBoost *= 0.93;
     }
     currentSpeed = baseSpeed + scrollBoost;
+    circuitZOffset = (circuitZOffset + currentSpeed) % NODE_SPACING;
 
-    // 1. Dark 3D Grid Highway into the Void
-    drawGridHighway(currentSpeed);
+    // 1. Draw 3D PCB Circuit Boards (Floor & Ceiling with Solder Via Pads)
+    drawCircuitBoard(false, currentSpeed); // Floor Circuit
+    drawCircuitBoard(true, currentSpeed);  // Ceiling Circuit
 
-    // 2. 3D Hacking & Privilege Escalation Streams (Pure Blue/Cyan)
+    // 2. Draw Flowing Electrical Current Pulses along Circuit Traces
+    signals.forEach(s => {
+      s.update(currentSpeed);
+      s.draw();
+    });
+
+    // 3. Draw Peripheral Cyber Photons
+    photons.forEach(p => {
+      p.update(currentSpeed);
+      p.draw();
+    });
+
+    // 4. Draw Pure Blue 3D Hacking Logs
     hackTags.forEach(tag => {
       tag.update(currentSpeed);
       tag.draw();
-    });
-
-    // 3. High-Speed Cyber Penetration Photons (Pure Blue/Cyan)
-    streaks.forEach(s => {
-      s.update(currentSpeed);
-      s.draw();
     });
 
     animationFrameId = requestAnimationFrame(animate);
