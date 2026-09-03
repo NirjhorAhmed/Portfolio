@@ -1,8 +1,8 @@
 /**
- * Interactive Node Constellation Canvas with High-Density Full-Screen Blue & Red Words
+ * Interactive Node Constellation Canvas with Words Generating from the Very Center
  * Sufi Mahbub Ahmed - Cybersecurity Portfolio
- * Constantly generates streaming blue and red security words across all zones
- * (Top, Upper-Mid, True Center, Lower-Mid, and Bottom) with continuous respawning.
+ * All blue & red security words originate from the very center of the screen
+ * and stream outward in 3D perspective across the interactive constellation mesh.
  */
 
 (function () {
@@ -12,6 +12,7 @@
   const ctx = canvas.getContext('2d');
   let animationFrameId;
   let width, height;
+  let cx, cy;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -25,6 +26,8 @@
   function resize() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
+    cx = width / 2;
+    cy = height / 2;
   }
 
   // =========================================================================
@@ -62,7 +65,7 @@
       if (this.y < -20) this.y = height + 20;
       if (this.y > height + 20) this.y = -20;
 
-      // Mouse proximity interaction
+      // Mouse proximity reaction
       if (mouse.x !== null && mouse.y !== null) {
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
@@ -146,7 +149,7 @@
   }
 
   // =========================================================================
-  // 2. High-Density Blue & Red Security Words (Continuous Mid-Zone Generation)
+  // 2. 3D Security Words Generating From The Very Center
   // =========================================================================
   const WORDS_BLUE = [
     '> SYS_AUTH // ACCESS GRANTED',
@@ -176,108 +179,82 @@
     '> KERNEL_PANIC::OVERRIDE'
   ];
 
-  const FLOATING_WORD_COUNT = 36; // High density across all screen heights
-  const TOTAL_ZONES = 6; // 6 distinct height bands for uniform generation
-  let floatingWords = [];
+  const FOCAL_LENGTH = 320;
+  const DEPTH = 2000;
+  const WORD_COUNT = 32;
+  let centerWords = [];
 
-  class ContinuousFloatingWord {
-    constructor(zoneIndex) {
-      this.zoneIndex = zoneIndex;
-      this.reset(true);
+  class CenterOriginWord {
+    constructor(initialZ) {
+      this.reset(initialZ);
     }
 
-    reset(initial = false) {
+    reset(customZ = null) {
       this.isRed = Math.random() > 0.5; // 50% Blue, 50% Red
       this.text = this.isRed
         ? WORDS_RED[Math.floor(Math.random() * WORDS_RED.length)]
         : WORDS_BLUE[Math.floor(Math.random() * WORDS_BLUE.length)];
 
-      // Divide screen into 6 vertical zones:
-      // Zone 0: Top (0-16%)
-      // Zone 1: Upper-Mid (16-33%)
-      // Zone 2: True Mid Center (33-50%)
-      // Zone 3: Lower Mid Center (50-66%)
-      // Zone 4: Lower Area (66-83%)
-      // Zone 5: Bottom (83-100%)
-      const band = this.zoneIndex % TOTAL_ZONES;
-      const zoneHeight = height / TOTAL_ZONES;
-      const minY = band * zoneHeight + 15;
-      const maxY = (band + 1) * zoneHeight - 15;
+      // Radial angle outward in 360 degrees
+      this.angle = Math.random() * Math.PI * 2;
+      
+      // Target trajectory width and height in 3D
+      const spreadX = 450 + Math.random() * 550;
+      const spreadY = 280 + Math.random() * 380;
+      this.x = Math.cos(this.angle) * spreadX;
+      this.y = Math.sin(this.angle) * spreadY;
 
-      if (initial) {
-        this.x = Math.random() * (width - 240) + 20;
-      } else {
-        // Continuous spawn from screen boundaries
-        this.x = Math.random() > 0.5 ? -280 : width + 20;
-      }
-
-      this.y = Math.random() * (maxY - minY) + minY;
-
-      const dir = Math.random() > 0.5 ? 1 : -1;
-      this.vx = dir * (Math.random() * 0.42 + 0.24);
-      this.vy = (Math.random() - 0.5) * 0.16;
-
-      this.fontSize = Math.floor(Math.random() * 3) + 11;
-      this.maxAlpha = Math.random() * 0.35 + 0.5;
-      this.alpha = initial ? (Math.random() * 0.4 + 0.3) : 0;
-      this.fadeState = initial ? 'hold' : 'in';
-      this.lifeTime = Math.random() * 400 + 250;
+      // Start depth at the far distance (projects directly to the very middle cx, cy)
+      this.z = customZ !== null ? customZ : (DEPTH - Math.random() * 80);
+      this.speed = (Math.random() * 2.2 + 3.8);
     }
 
     update() {
-      this.x += this.vx;
-      this.y += this.vy;
+      this.z -= this.speed;
 
-      // Smooth fade in -> hold -> fade out lifecycle
-      if (this.fadeState === 'in') {
-        this.alpha += 0.018;
-        if (this.alpha >= this.maxAlpha) {
-          this.alpha = this.maxAlpha;
-          this.fadeState = 'hold';
-        }
-      } else if (this.fadeState === 'hold') {
-        this.lifeTime--;
-        if (this.lifeTime <= 0) {
-          this.fadeState = 'out';
-        }
-      } else if (this.fadeState === 'out') {
-        this.alpha -= 0.018;
-        if (this.alpha <= 0) {
-          this.reset();
-        }
-      }
-
-      // Continuous respawn on screen boundary exit
-      if (this.x < -320 || this.x > width + 80) {
+      // When the word zooms past the screen, immediately respawn right at the very center
+      if (this.z <= 30) {
         this.reset();
       }
     }
 
     draw() {
-      if (this.alpha <= 0.01) return;
+      if (this.z <= 35) return;
+      const scale = FOCAL_LENGTH / this.z;
 
+      // Screen projection: when z is large, (px, py) is at the exact center (cx, cy)
+      const px = cx + this.x * scale;
+      const py = cy + this.y * scale;
+
+      // Opacity: starts as it emerges from the center, peaks mid-flight, stays visible
+      const depthFactor = 1 - (this.z / DEPTH);
+      const alpha = Math.min(0.92, Math.max(0, depthFactor * 1.1));
+
+      if (alpha <= 0.02) return;
+
+      const fontSize = Math.max(6.5, 14 * scale);
       ctx.save();
-      ctx.font = `600 ${this.fontSize}px "JetBrains Mono", monospace`;
+      ctx.font = `600 ${fontSize}px "JetBrains Mono", monospace`;
 
       const colorStr = this.isRed
-        ? `rgba(255, 51, 102, ${this.alpha})`
-        : `rgba(0, 240, 255, ${this.alpha})`;
+        ? `rgba(255, 51, 102, ${alpha})`
+        : `rgba(0, 240, 255, ${alpha})`;
 
       const glowStr = this.isRed ? '#ff3366' : '#00f0ff';
 
       // Status indicator dot
       ctx.fillStyle = colorStr;
-      ctx.shadowBlur = 6;
+      ctx.shadowBlur = scale > 0.3 ? 6 : 0;
       ctx.shadowColor = glowStr;
       ctx.beginPath();
-      ctx.arc(this.x - 8, this.y - (this.fontSize * 0.35), 2.5, 0, Math.PI * 2);
+      ctx.arc(px - 8 * scale, py - (fontSize * 0.32), Math.max(1.2, 2.8 * scale), 0, Math.PI * 2);
       ctx.fill();
 
       // Word string
       ctx.fillStyle = colorStr;
-      ctx.shadowBlur = 4;
+      ctx.shadowBlur = scale > 0.4 ? 4 : 0;
       ctx.shadowColor = glowStr;
-      ctx.fillText(this.text, this.x, this.y);
+      ctx.fillText(this.text, px, py);
 
       ctx.restore();
     }
@@ -296,10 +273,11 @@
       nodes.push(new NetworkNode());
     }
 
-    // Spawn 36 words evenly across all 6 vertical height bands
-    floatingWords = [];
-    for (let i = 0; i < FLOATING_WORD_COUNT; i++) {
-      floatingWords.push(new ContinuousFloatingWord(i));
+    // Spawn 32 words with staggered depths so they continuously erupt from the center
+    centerWords = [];
+    const spacing = DEPTH / WORD_COUNT;
+    for (let i = 0; i < WORD_COUNT; i++) {
+      centerWords.push(new CenterOriginWord(i * spacing + 60));
     }
   }
 
@@ -315,8 +293,8 @@
       n.draw();
     });
 
-    // 3. Draw Continuous Blue & Red Words across all bands (including mid-zones)
-    floatingWords.forEach(w => {
+    // 3. Draw Words Originating and Erupting from the Very Center
+    centerWords.forEach(w => {
       w.update();
       w.draw();
     });
