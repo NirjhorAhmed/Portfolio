@@ -1,8 +1,9 @@
 /**
- * 3D Cyberspace "Entering The System" Engine
+ * "Hacking Through The System" Cyberspace Engine
  * Sufi Mahbub Ahmed - Cybersecurity Portfolio
- * Features prominent floating 3D security access status tags (SYS_AUTH, FIREWALL BYPASS, MAINFRAME, IUT_SEC_NET),
- * high-speed perspective grid highway, and cyber photon streaks without heavy box clutter.
+ * Deep endless cyber-breach void, terminal injection logs,
+ * root privilege escalation streams, and high-speed data penetration.
+ * (No central blue light - pure dark cyberspace breach aesthetic)
  */
 
 (function () {
@@ -17,13 +18,13 @@
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Projection setup
+  // 3D Projection Setup
   const FOCAL_LENGTH = 340;
-  const DEPTH = 2200;
-  const TUNNEL_WIDTH = 520;
+  const DEPTH = 2400;
+  const TUNNEL_WIDTH = 540;
   const TUNNEL_HEIGHT = 290;
 
-  let baseSpeed = prefersReducedMotion ? 0 : 5.6;
+  let baseSpeed = prefersReducedMotion ? 0 : 6.2;
   let currentSpeed = baseSpeed;
   let scrollBoost = 0;
   let globalTime = 0;
@@ -38,55 +39,55 @@
   }
 
   // =========================================================================
-  // 1. 3D Floating Security Status Tags (SYS_AUTH, FIREWALL, MAINFRAME, IUT_SEC_NET)
+  // 1. Live Hacking & Cyber Penetration Stream Logs
   // =========================================================================
-  const SYSTEM_TAGS = [
-    'SYS_AUTH // ACCESS GRANTED',
-    'FIREWALL // BYPASS OK',
-    'MAINFRAME // LEVEL 01',
-    'IUT_SEC_NET // ROOT ACCESS',
-    'SYS_AUTH // ACCESS GRANTED',
-    'FIREWALL // BYPASS OK',
-    'MAINFRAME // LEVEL 01',
-    'IUT_SEC_NET // ROOT ACCESS',
-    'SECURITY_LAYER // VERIFIED',
-    'ENCRYPTION // AES_256',
-    'DATA_PIPELINE // CONNECTED',
-    'SEC_KERNEL // INITIALIZED'
+  const HACK_LOGS = [
+    { text: '> INJECTING_PAYLOAD // OK', type: 'success' },
+    { text: '> BYPASSING_FIREWALL // 100%', type: 'success' },
+    { text: '> PRIVILEGE_ESCALATION [ROOT]', type: 'root' },
+    { text: '> IUT_SEC_NET // ROOT_ACCESS', type: 'root' },
+    { text: '> SYS_AUTH // BREACH_CONFIRMED', type: 'alert' },
+    { text: '> DECRYPTING_HASH // 0x7F8B92', type: 'info' },
+    { text: '> PACKET_SNIFFER // INTERCEPTING', type: 'info' },
+    { text: '> MEMORY_INJECTION // 0x004000', type: 'info' },
+    { text: '> MAINFRAME // ROOT_SHELL_OPEN', type: 'root' },
+    { text: '> EXPLOIT::BUFFER_OVERFLOW [OK]', type: 'success' },
+    { text: '> PORT_SCAN::STEALTH_ACK [443]', type: 'info' },
+    { text: '> KERNEL_HOOK // ATTACHED', type: 'success' }
   ];
 
-  const TAG_COUNT = 14; // Plentiful and constantly streaming
-  let hudTags = [];
+  const TAG_COUNT = 16;
+  let hackTags = [];
 
-  class CyberHUDTag {
-    constructor(initialZ) {
-      this.reset(initialZ);
+  class HackingTag {
+    constructor(customZ) {
+      this.reset(customZ);
     }
 
     reset(customZ = null) {
-      // Position evenly across the 4 quadrant perimeters
+      // Distributed across peripheral quadrants
       const quadrant = Math.floor(Math.random() * 4);
-      if (quadrant === 0) { // Top Left / Upper Left
-        this.x = -220 - Math.random() * 320;
+      if (quadrant === 0) { // Top Left
+        this.x = -240 - Math.random() * 340;
         this.y = -140 - Math.random() * 160;
-      } else if (quadrant === 1) { // Top Right / Upper Right
-        this.x = 220 + Math.random() * 320;
+      } else if (quadrant === 1) { // Top Right
+        this.x = 240 + Math.random() * 340;
         this.y = -140 - Math.random() * 160;
-      } else if (quadrant === 2) { // Bottom Left / Lower Left
-        this.x = -220 - Math.random() * 320;
+      } else if (quadrant === 2) { // Bottom Left
+        this.x = -240 - Math.random() * 340;
         this.y = 140 + Math.random() * 160;
-      } else { // Bottom Right / Lower Right
-        this.x = 220 + Math.random() * 320;
+      } else { // Bottom Right
+        this.x = 240 + Math.random() * 340;
         this.y = 140 + Math.random() * 160;
       }
 
-      this.z = customZ !== null ? customZ : (DEPTH - Math.random() * 150);
-      this.text = SYSTEM_TAGS[Math.floor(Math.random() * SYSTEM_TAGS.length)];
-      this.isAccessGranted = this.text.includes('ACCESS GRANTED') || this.text.includes('ROOT ACCESS') || this.text.includes('BYPASS OK');
+      this.z = customZ !== null ? customZ : (DEPTH - Math.random() * 180);
+      this.data = HACK_LOGS[Math.floor(Math.random() * HACK_LOGS.length)];
+      this.speedMult = 1.0 + Math.random() * 0.4;
     }
 
     update(speed) {
-      this.z -= speed * 1.1;
+      this.z -= speed * this.speedMult;
       if (this.z <= 25) {
         this.reset();
       }
@@ -99,7 +100,7 @@
       const py = cy + this.y * scale;
 
       const depthFactor = 1 - (this.z / DEPTH);
-      const alpha = Math.min(0.9, Math.max(0, depthFactor * 0.95));
+      const alpha = Math.min(0.95, Math.max(0, depthFactor * 0.98));
 
       if (alpha <= 0.02) return;
 
@@ -107,25 +108,39 @@
       ctx.save();
       ctx.font = `600 ${fontSize}px "JetBrains Mono", monospace`;
 
-      // Status indicator dot
+      let mainColor, dotColor, glowColor;
+      if (this.data.type === 'root' || this.data.type === 'success') {
+        mainColor = `rgba(0, 255, 136, ${alpha * 0.95})`;
+        dotColor = `rgba(0, 255, 136, ${alpha})`;
+        glowColor = '#00ff88';
+      } else if (this.data.type === 'alert') {
+        mainColor = `rgba(255, 51, 102, ${alpha * 0.95})`;
+        dotColor = `rgba(255, 51, 102, ${alpha})`;
+        glowColor = '#ff3366';
+      } else {
+        mainColor = `rgba(0, 240, 255, ${alpha * 0.95})`;
+        dotColor = `rgba(0, 240, 255, ${alpha})`;
+        glowColor = '#00f0ff';
+      }
+
+      // Terminal Prompt Indicator Dot
       const dotRadius = Math.max(1.8, 3.5 * scale);
-      ctx.fillStyle = this.isAccessGranted ? `rgba(16, 185, 129, ${alpha})` : `rgba(0, 240, 255, ${alpha})`;
-      ctx.shadowBlur = this.isAccessGranted ? 8 : 6;
-      ctx.shadowColor = this.isAccessGranted ? '#10b981' : '#00f0ff';
+      ctx.fillStyle = dotColor;
+      ctx.shadowBlur = scale > 0.3 ? 8 : 0;
+      ctx.shadowColor = glowColor;
       ctx.beginPath();
       ctx.arc(px - 10 * scale, py - (fontSize * 0.35), dotRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Cyber text with subtle glow
+      // Hacker Terminal Log String
+      ctx.fillStyle = mainColor;
       ctx.shadowBlur = scale > 0.4 ? 6 : 0;
-      ctx.shadowColor = 'rgba(0, 240, 255, 0.6)';
-      ctx.fillStyle = `rgba(0, 240, 255, ${alpha * 0.95})`;
-      ctx.fillText(`[ ${this.text} ]`, px, py);
+      ctx.fillText(this.data.text, px, py);
 
-      // Underline trace on closer elements
-      if (scale > 0.4) {
-        const textWidth = ctx.measureText(`[ ${this.text} ]`).width;
-        ctx.strokeStyle = `rgba(0, 240, 255, ${alpha * 0.35})`;
+      // Cyber underline trace on closer tags
+      if (scale > 0.45) {
+        const textWidth = ctx.measureText(this.data.text).width;
+        ctx.strokeStyle = mainColor;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(px, py + 3 * scale);
@@ -138,21 +153,21 @@
   }
 
   // =========================================================================
-  // 2. Sleek 3D Grid Highway (Floor & Ceiling Perspective Rails)
+  // 2. Dark Wireframe Breach Grid (Floor & Ceiling Rails)
   // =========================================================================
   let gridZOffset = 0;
   const GRID_SPACING = 110;
-  const NUM_Z_LINES = 20;
+  const NUM_Z_LINES = 22;
 
   function drawGridHighway(speed) {
     gridZOffset = (gridZOffset + speed) % GRID_SPACING;
 
     ctx.save();
 
-    // Longitudinal Rails extending from horizon
-    const rails = [-750, -500, -320, -160, 0, 160, 320, 500, 750];
+    // Longitudinal Rails extending into the deep dark void
+    const rails = [-800, -520, -320, -160, 0, 160, 320, 520, 800];
 
-    // Floor Rails
+    // Floor Rails (Hacker Cyan / Terminal Green tint)
     rails.forEach((rx, i) => {
       const isCenter = rx === 0;
       const scaleFar = FOCAL_LENGTH / DEPTH;
@@ -165,11 +180,11 @@
 
       const grad = ctx.createLinearGradient(xFar, yFar, xNear, yNear);
       grad.addColorStop(0, 'rgba(0, 240, 255, 0)');
-      grad.addColorStop(0.35, isCenter ? 'rgba(0, 240, 255, 0.22)' : 'rgba(0, 119, 254, 0.08)');
-      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.5)' : 'rgba(0, 119, 254, 0.25)');
+      grad.addColorStop(0.35, isCenter ? 'rgba(0, 255, 136, 0.25)' : 'rgba(0, 119, 254, 0.08)');
+      grad.addColorStop(1, isCenter ? 'rgba(0, 255, 136, 0.55)' : 'rgba(0, 240, 255, 0.25)');
 
       ctx.strokeStyle = grad;
-      ctx.lineWidth = isCenter ? 1.5 : 0.8;
+      ctx.lineWidth = isCenter ? 1.6 : 0.8;
       ctx.beginPath();
       ctx.moveTo(xFar, yFar);
       ctx.lineTo(xNear, yNear);
@@ -189,18 +204,18 @@
 
       const grad = ctx.createLinearGradient(xFar, yFar, xNear, yNear);
       grad.addColorStop(0, 'rgba(0, 240, 255, 0)');
-      grad.addColorStop(0.35, isCenter ? 'rgba(0, 240, 255, 0.16)' : 'rgba(0, 119, 254, 0.06)');
-      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.4)' : 'rgba(0, 119, 254, 0.18)');
+      grad.addColorStop(0.35, isCenter ? 'rgba(0, 240, 255, 0.2)' : 'rgba(0, 119, 254, 0.06)');
+      grad.addColorStop(1, isCenter ? 'rgba(0, 240, 255, 0.45)' : 'rgba(0, 119, 254, 0.18)');
 
       ctx.strokeStyle = grad;
-      ctx.lineWidth = isCenter ? 1.5 : 0.8;
+      ctx.lineWidth = isCenter ? 1.6 : 0.8;
       ctx.beginPath();
       ctx.moveTo(xFar, yFar);
       ctx.lineTo(xNear, yNear);
       ctx.stroke();
     });
 
-    // Transverse Z-Lines (Clean, smooth floor & ceiling grids)
+    // Transverse Scanning Lines (Rushing towards camera)
     for (let i = 0; i < NUM_Z_LINES; i++) {
       const z = (i * GRID_SPACING) - gridZOffset + 35;
       if (z <= 30 || z >= DEPTH) continue;
@@ -213,7 +228,7 @@
 
       const floorY = cy + TUNNEL_HEIGHT * scale;
       const ceilY = cy - TUNNEL_HEIGHT * scale;
-      const spanW = 880 * scale;
+      const spanW = 900 * scale;
 
       ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
       ctx.lineWidth = Math.max(0.6, 1.8 * scale);
@@ -235,36 +250,36 @@
   }
 
   // =========================================================================
-  // 3. High-Speed Light Rays & Photons (Clean Data Streams)
+  // 3. High-Speed Cyber Attack Streaks (Hacker Green & Neon Cyan Data Photons)
   // =========================================================================
-  const STREAK_COUNT = 90;
+  const STREAK_COUNT = 95;
   let streaks = [];
 
-  class LightStreak {
+  class HackingStreak {
     constructor() {
       this.reset(true);
     }
 
     reset(initial = false) {
       const side = Math.floor(Math.random() * 4);
-      if (side === 0) { // Floor zone
+      if (side === 0) { // Floor
         this.x = (Math.random() - 0.5) * TUNNEL_WIDTH * 2.4;
         this.y = TUNNEL_HEIGHT + Math.random() * 160;
-      } else if (side === 1) { // Ceiling zone
+      } else if (side === 1) { // Ceiling
         this.x = (Math.random() - 0.5) * TUNNEL_WIDTH * 2.4;
         this.y = -TUNNEL_HEIGHT - Math.random() * 160;
-      } else if (side === 2) { // Left peripheral
+      } else if (side === 2) { // Left flank
         this.x = -TUNNEL_WIDTH - Math.random() * 180;
         this.y = (Math.random() - 0.5) * TUNNEL_HEIGHT * 2.2;
-      } else { // Right peripheral
+      } else { // Right flank
         this.x = TUNNEL_WIDTH + Math.random() * 180;
         this.y = (Math.random() - 0.5) * TUNNEL_HEIGHT * 2.2;
       }
 
       this.z = initial ? Math.random() * DEPTH : DEPTH - Math.random() * 100;
-      this.len = 70 + Math.random() * 130;
-      this.speedMult = 1.2 + Math.random() * 1.8;
-      this.colorType = Math.random();
+      this.len = 80 + Math.random() * 150;
+      this.speedMult = 1.3 + Math.random() * 1.9;
+      this.type = Math.random();
     }
 
     update(speed) {
@@ -285,26 +300,26 @@
       const py2 = cy + this.y * scale2;
 
       const depthFactor = 1 - (this.z / DEPTH);
-      const alpha = Math.min(0.85, Math.max(0, depthFactor * 0.85));
+      const alpha = Math.min(0.9, Math.max(0, depthFactor * 0.9));
 
       if (alpha <= 0.01) return;
 
       ctx.save();
       const grad = ctx.createLinearGradient(px1, py1, px2, py2);
 
-      if (this.colorType > 0.35) {
-        grad.addColorStop(0, `rgba(0, 240, 255, ${alpha})`);
+      if (this.type > 0.45) { // Hacker green
+        grad.addColorStop(0, `rgba(0, 255, 136, ${alpha})`);
         grad.addColorStop(1, 'rgba(0, 119, 254, 0)');
-      } else if (this.colorType > 0.15) {
-        grad.addColorStop(0, `rgba(56, 189, 248, ${alpha})`);
-        grad.addColorStop(1, 'rgba(139, 92, 246, 0)');
-      } else {
-        grad.addColorStop(0, `rgba(16, 185, 129, ${alpha})`);
-        grad.addColorStop(1, 'rgba(0, 240, 255, 0)');
+      } else if (this.type > 0.15) { // Cyan
+        grad.addColorStop(0, `rgba(0, 240, 255, ${alpha})`);
+        grad.addColorStop(1, 'rgba(0, 255, 136, 0)');
+      } else { // Red alert glitch
+        grad.addColorStop(0, `rgba(255, 51, 102, ${alpha})`);
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
       }
 
       ctx.strokeStyle = grad;
-      ctx.lineWidth = Math.max(0.8, 2.5 * scale1);
+      ctx.lineWidth = Math.max(0.8, 2.6 * scale1);
       ctx.beginPath();
       ctx.moveTo(px1, py1);
       ctx.lineTo(px2, py2);
@@ -314,7 +329,7 @@
       if (scale1 > 0.5) {
         ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.beginPath();
-        ctx.arc(px1, py1, Math.max(1, 2 * scale1), 0, Math.PI * 2);
+        ctx.arc(px1, py1, Math.max(1, 2.2 * scale1), 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -323,48 +338,21 @@
   }
 
   // =========================================================================
-  // 4. Horizon Mainframe Core Glow
-  // =========================================================================
-  function drawHorizonNexus() {
-    ctx.save();
-    const pulse = 1 + Math.sin(globalTime * 2.2) * 0.06;
-    const grad = ctx.createRadialGradient(cx, cy, 2, cx, cy, 160 * pulse);
-    grad.addColorStop(0, 'rgba(0, 240, 255, 0.4)');
-    grad.addColorStop(0.3, 'rgba(0, 119, 254, 0.18)');
-    grad.addColorStop(0.7, 'rgba(11, 19, 36, 0.04)');
-    grad.addColorStop(1, 'transparent');
-
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(cx, cy, 160 * pulse, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Clean center point
-    ctx.fillStyle = '#ffffff';
-    ctx.shadowBlur = 15;
-    ctx.shadowColor = '#00f0ff';
-    ctx.beginPath();
-    ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-
-  // =========================================================================
-  // Initialization & Main Loop
+  // Initialize & Main Animation Loop
   // =========================================================================
   function init() {
     resize();
 
-    // Initialize 3D HUD Tags at distributed depths
-    hudTags = [];
+    // Spawn 3D Hacking Logs distributed across depth
+    hackTags = [];
     const spacing = DEPTH / TAG_COUNT;
     for (let i = 0; i < TAG_COUNT; i++) {
-      hudTags.push(new CyberHUDTag(i * spacing + 100));
+      hackTags.push(new HackingTag(i * spacing + 80));
     }
 
     streaks = [];
     for (let i = 0; i < STREAK_COUNT; i++) {
-      streaks.push(new LightStreak());
+      streaks.push(new HackingStreak());
     }
   }
 
@@ -373,33 +361,30 @@
   function animate() {
     globalTime += 0.016;
 
-    // Dark cyberspace trail fade
-    ctx.fillStyle = 'rgba(4, 7, 16, 0.25)';
+    // Dark cyberspace trail fade (Pure deep void - NO central blue light)
+    ctx.fillStyle = 'rgba(3, 6, 14, 0.26)';
     ctx.fillRect(0, 0, width, height);
 
-    // Smooth camera steer
+    // Smooth camera steering with mouse
     cx += (targetCx - cx) * 0.06;
     cy += (targetCy - cy) * 0.06;
 
-    // Scroll speed acceleration
+    // Scroll speed boost
     if (scrollBoost > 0) {
       scrollBoost *= 0.93;
     }
     currentSpeed = baseSpeed + scrollBoost;
 
-    // 1. Horizon Nexus
-    drawHorizonNexus();
-
-    // 2. Clean 3D Perspective Grid Highway
+    // 1. Dark 3D Grid Highway into the Void
     drawGridHighway(currentSpeed);
 
-    // 3. 3D Floating System Status Tags (SYS_AUTH, FIREWALL, MAINFRAME, IUT_SEC_NET)
-    hudTags.forEach(tag => {
+    // 2. 3D Hacking & Privilege Escalation Streams
+    hackTags.forEach(tag => {
       tag.update(currentSpeed);
       tag.draw();
     });
 
-    // 4. High-speed Light Photons
+    // 3. High-Speed Cyber Penetration Photons
     streaks.forEach(s => {
       s.update(currentSpeed);
       s.draw();
@@ -429,7 +414,7 @@
   window.addEventListener('scroll', () => {
     const delta = Math.abs(window.scrollY - lastScrollY);
     lastScrollY = window.scrollY;
-    scrollBoost = Math.min(15, scrollBoost + delta * 0.18);
+    scrollBoost = Math.min(16, scrollBoost + delta * 0.2);
   }, { passive: true });
 
   init();
