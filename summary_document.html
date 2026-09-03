@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Portfolio Build Summary - Sufi Mahbub Ahmed</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      line-height: 1.5;
+      font-size: 10pt;
+      background: #ffffff;
+    }
+
+    /* Cover / Header */
+    .header {
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .header-title h1 {
+      font-size: 18pt;
+      color: #0f172a;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .header-title p {
+      font-size: 10pt;
+      color: #0284c7;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .header-meta {
+      text-align: right;
+      font-size: 8.5pt;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    /* Section Styles */
+    .section {
+      margin-bottom: 18px;
+      page-break-inside: avoid;
+    }
+
+    .section-title {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #0f172a;
+      border-left: 4px solid #0284c7;
+      padding-left: 8px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    p {
+      margin-bottom: 8px;
+      color: #334155;
+    }
+
+    /* Grid & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .card-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 8.5pt;
+      color: #475569;
+      line-height: 1.4;
+    }
+
+    /* Timeline / Steps */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 12px;
+    }
+
+    .step-num {
+      background: #0284c7;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 8.5pt;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-content h4 {
+      font-size: 9.5pt;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .step-content p {
+      font-size: 8.5pt;
+      color: #475569;
+      margin-bottom: 0;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 6px;
+      font-size: 8.5pt;
+    }
+
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 6px 10px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    td {
+      color: #334155;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 7.5pt;
+      font-weight: 600;
+      border-radius: 4px;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-success {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 8px;
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 8pt;
+      color: #94a3b8;
+    }
+
+    .highlight-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-top: 8px;
+      font-size: 8.5pt;
+      color: #166534;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-title">
+      <h1>Project Build Summary</h1>
+      <p>Sufi Mahbub Ahmed — Cybersecurity Portfolio Website</p>
+    </div>
+    <div class="header-meta">
+      <div><strong>Author:</strong> NirjhorAhmed</div>
+      <div><strong>Institution:</strong> Islamic University of Technology (IUT)</div>
+      <div><strong>Host:</strong> GitHub Pages</div>
+    </div>
+  </div>
+
+  <!-- Executive Summary -->
+  <div class="section">
+    <div class="section-title">1. Executive Overview</div>
+    <p>
+      This document summarizes the end-to-end architecture, development workflow, design decisions, and deployment steps undertaken to build the personal cybersecurity portfolio website for <strong>Sufi Mahbub Ahmed</strong> from scratch.
+    </p>
+    <div class="highlight-box">
+      <strong>Live Deployment URL:</strong> https://nirjhorahmed.github.io/Portfolio/<br>
+      <strong>GitHub Repository:</strong> https://github.com/NirjhorAhmed/Portfolio
+    </div>
+  </div>
+
+  <!-- Build Phases -->
+  <div class="section">
+    <div class="section-title">2. Step-by-Step Development Lifecycle</div>
+    <div class="step-list">
+      
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Requirements Analysis & Compliance Formulation</h4>
+          <p>Analyzed <code>portfolio.txt.txt</code> to extract all structural constraints. Enforced honest student representation: strictly omitting fabricated work experience, fake internships, false certifications, graduation dates, or LinkedIn links, while transforming services into "Areas of Future Focus".</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Asset Management & Visual Identity Design</h4>
+          <p>Created the directory hierarchy (<code>assets/images/</code>, <code>css/</code>, <code>js/</code>, <code>.github/workflows/</code>). Integrated the user-uploaded portrait (<code>profile.jpg</code>) and styled it with a high-tech glowing orbit frame, cyber brackets, and floating status chips.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Semantic HTML5 Front-End Construction</h4>
+          <p>Developed <code>index.html</code> with all core sections: Sticky Navigation, Hero section, About Me, Education Timeline (IUT, Dhaka Commerce College HSC 5.00, MUBC SSC 5.00), Categorized Technical Skills, Projects & Learning Roadmap, Career Journey, Areas of Future Focus, Gaming Interests, and Contact form with Email Copy button.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Cyber-Dark Styling & Animations Engine</h4>
+          <p>Crafted <code>css/style.css</code> and <code>css/animations.css</code> using modern CSS variables, glassmorphism (<code>backdrop-filter</code>), cyber-neon cyan highlights (<code>#00f0ff</code>), responsive flex/grid layouts, glowing borders, and scroll-reveal triggers.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Interactive 3D Cyberspace "Entering The System" Engine</h4>
+          <p>Engineered a custom 60 FPS HTML5 Canvas engine in <code>js/particles.js</code>. Implemented a 3D perspective grid highway (floor & ceiling), passing security firewall gates (<code>SYS_AUTH</code>, <code>FIREWALL // BYPASS OK</code>, <code>MAINFRAME // LEVEL 01</code>), peripheral matrix code drops, interactive mouse flight steering, and scroll speed acceleration.</p>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h4>Git Version Control & GitHub Pages CI/CD Deployment</h4>
+          <p>Configured git tracking, added <code>.nojekyll</code> for raw static file serving, created automated GitHub Actions deployment workflow (<code>.github/workflows/static.yml</code>), and pushed all assets to the public GitHub repository for live hosting.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Technical Stack & Codebase Structure -->
+  <div class="section">
+    <div class="section-title">3. Technical Architecture & File Structure</div>
+    <table>
+      <thead>
+        <tr>
+          <th>File / Path</th>
+          <th>Type</th>
+          <th>Primary Role & Functionality</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>index.html</strong></td>
+          <td>HTML5</td>
+          <td>Single-page semantic structure, accessibility attributes, meta tags, and section anchors.</td>
+        </tr>
+        <tr>
+          <td><strong>css/style.css</strong></td>
+          <td>CSS3</td>
+          <td>Dark cyber theme, custom properties, responsive breakpoints, card glassmorphism.</td>
+        </tr>
+        <tr>
+          <td><strong>css/animations.css</strong></td>
+          <td>CSS3</td>
+          <td>Keyframe glow pulses, floating chip animations, orbit rotations, scroll reveal styles.</td>
+        </tr>
+        <tr>
+          <td><strong>js/particles.js</strong></td>
+          <td>Vanilla JS</td>
+          <td>3D Cyberspace matrix highway, security gate portals, perspective projection math.</td>
+        </tr>
+        <tr>
+          <td><strong>js/main.js</strong></td>
+          <td>Vanilla JS</td>
+          <td>Scrollspy active tracking, sticky nav, mobile menu drawer, email clipboard copy, toast.</td>
+        </tr>
+        <tr>
+          <td><strong>assets/images/profile.jpg</strong></td>
+          <td>JPEG Image</td>
+          <td>User portrait featured in hero cyber frame with glow borders and corner brackets.</td>
+        </tr>
+        <tr>
+          <td><strong>.github/workflows/static.yml</strong></td>
+          <td>YAML CI/CD</td>
+          <td>Automated deployment pipeline building and deploying website to GitHub Pages.</td>
+        </tr>
+        <tr>
+          <td><strong>README.md</strong></td>
+          <td>Markdown</td>
+          <td>Repository documentation, features summary, and step-by-step setup guides.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Requirements Compliance Matrix -->
+  <div class="section">
+    <div class="section-title">4. Requirements Compliance Verification</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Theme & Identity <span class="badge badge-success">Passed</span></div>
+        <div class="card-desc">Deep cyber-blue palette, neon cyan highlights, clean minimal layout, subtle animations, student cybersecurity identity.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Honest Representation <span class="badge badge-success">Passed</span></div>
+        <div class="card-desc">No fabricated jobs, companies, internships, fake graduation dates, or services. Portrayed strictly as an active IUT student.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Contact & Social Rules <span class="badge badge-success">Passed</span></div>
+        <div class="card-desc">Includes email, phone, GitHub profile, and interactive form. LinkedIn link strictly omitted as requested.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Extensibility & Hosting <span class="badge badge-success">Passed</span></div>
+        <div class="card-desc">Fully modular architecture, GitHub Pages static hosting ready, and extensible for future semester projects.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>Sufi Mahbub Ahmed — Cybersecurity Portfolio Summary Report</div>
+    <div>Generated with Antigravity AI</div>
+  </div>
+
+</body>
+</html>
